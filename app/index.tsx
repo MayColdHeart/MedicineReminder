@@ -16,10 +16,20 @@ const App: React.FC = () => {
   const [medicamentos, setMedicamentos] = React.useState<string[]>([]);
   const [novoMedicamento, setNovoMedicamento] = React.useState("");
   const [mostrarPopup, setMostrarPopup] = React.useState(false);
+  const [editaMedicamento, setEditaMedicamento] = React.useState<number | null>(null);
+
+
 
   const adicionarMedicamento = () => {
     if (novoMedicamento.trim()) {
+      if (editaMedicamento !== null) {
+        const novaLista = [...medicamentos];
+        novaLista[editaMedicamento] = novoMedicamento;
+        setMedicamentos(novaLista);
+        setEditaMedicamento(null);
+      } else {
       setMedicamentos([...medicamentos, novoMedicamento]);
+      }
       setNovoMedicamento("");
       setMostrarPopup(false);
     }
@@ -32,6 +42,12 @@ const App: React.FC = () => {
   function apagarRemedio(index: number): void {
     throw new Error('Function not implemented.');
   }
+
+    const editar = (index: number) => {
+    setNovoMedicamento(medicamentos[index]);
+    setEditaMedicamento(index);
+    setMostrarPopup(true);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,20 +71,27 @@ const App: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content}>
-        {medicamentos.map((remedio, index) => (
-          <View key={index} style={styles.itemRemedio}>
-            <Text style={styles.textoRemedio}>{remedio}</Text>
+<ScrollView style={styles.content}>
+  {medicamentos.map((remedio, index) => (
+    <View key={index} style={styles.itemRemedio}>
+      <Text style={styles.textoRemedio}>{remedio}</Text>
 
-            <TouchableOpacity
-              style={styles.botaoLixeira}
-              onPress={() => apagarRemedio(index)}
-            >
-              <Text style={styles.iconeLixeira}>🗑️</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </ScrollView>
+      <TouchableOpacity
+        style={styles.botaoLixeira}
+        onPress={() => apagarRemedio(index)}
+      >
+        <Text style={styles.iconeLixeira}>🗑️</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.botaoLixeira}
+        onPress={() => editar(index)}
+      >
+        <Text>{editaMedicamento === index ? "Editar" : "✏️"}</Text>
+      </TouchableOpacity>
+    </View>
+  ))}
+</ScrollView>
 
       {mostrarPopup && (
         <View style={styles.popupFundo}>
