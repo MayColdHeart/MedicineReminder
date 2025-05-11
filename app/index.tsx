@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { ScreenStackHeaderRightView } from 'react-native-screens';
 
 
 interface Styles {
@@ -16,10 +17,20 @@ const App: React.FC = () => {
   const [medicamentos, setMedicamentos] = React.useState<string[]>([]);
   const [novoMedicamento, setNovoMedicamento] = React.useState("");
   const [mostrarPopup, setMostrarPopup] = React.useState(false);
+  const [editaMedicamento, setEditaMedicamento] = React.useState<number | null>(null);
+
+
 
   const adicionarMedicamento = () => {
     if (novoMedicamento.trim()) {
+      if (editaMedicamento !== null) {
+        const novaLista = [...medicamentos];
+        novaLista[editaMedicamento] = novoMedicamento;
+        setMedicamentos(novaLista);
+        setEditaMedicamento(null);
+      } else {
       setMedicamentos([...medicamentos, novoMedicamento]);
+      }
       setNovoMedicamento("");
       setMostrarPopup(false);
     }
@@ -33,6 +44,12 @@ const App: React.FC = () => {
     throw new Error('Function not implemented.');
   }
 
+    const editar = (index: number) => {
+    setNovoMedicamento(medicamentos[index]);
+    setEditaMedicamento(index);
+    setMostrarPopup(true);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header Fixo */}
@@ -40,8 +57,12 @@ const App: React.FC = () => {
         <Text style={styles.headerTitle}>Medicine Reminder</Text>
         <TouchableOpacity 
           style={[styles.addButton, { backgroundColor: 'white'}]}
-          onPress={() => setMostrarPopup(true)}
-          >
+            onPress={() => {
+              setNovoMedicamento(""); 
+              setEditaMedicamento(null);
+              setMostrarPopup(true);
+            }}>
+
             <Ionicons 
               name="add-circle-outline" 
               size={32} 
@@ -55,54 +76,64 @@ const App: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content}>
-        {medicamentos.map((remedio, index) => (
-          <View key={index} style={styles.itemRemedio}>
-            <Text style={styles.textoRemedio}>{remedio}</Text>
+<ScrollView style={styles.content}>
+  {medicamentos.map((remedio, index) => (
+    <View key={index} style={styles.itemRemedio}>
+      <Text style={styles.textoRemedio}>{remedio}</Text>
 
-            <TouchableOpacity
-              style={styles.botaoLixeira}
-              onPress={() => apagarRemedio(index)}
-            >
-              <Text style={styles.iconeLixeira}>🗑️</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </ScrollView>
 
-      {mostrarPopup && (
-        <View style={styles.popupFundo}>
-          <View style={styles.popup}>
-            <Text style={styles.popupTitulo}>Adicionar Remédio</Text>
+      <TouchableOpacity
+        style={styles.botaoEdit}
+        onPress={() => editar(index)}
+        >  
+       <Text style={styles.icon}>✏️</Text>
+      </TouchableOpacity>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Digite o nome (Ex: Dipirona)"
-            value={novoMedicamento}
-            onChangeText={texto => setNovoMedicamento(texto)}
-            />
+      <TouchableOpacity
+        style={styles.botaoLixeira}
+        onPress={() => apagarRemedio(index)}
+      >
+        <Text style={styles.icon}>🗑️</Text>
+      </TouchableOpacity>
 
-            <View style={styles.botoesPopup}>
-              <TouchableOpacity
-                style={[styles.botaoPopup, styles.botaoCancelar]}
-                onPress={() => setMostrarPopup(false)}
-              >
-                <Text style={styles.botaoTexto}>Cancelar</Text>
-              </TouchableOpacity>
 
-              <TouchableOpacity
-                style={[styles.botaoPopup, styles.botaoConfirmar]}
-                onPress={adicionarMedicamento}
-                >
-                  <Text style={styles.botaoTexto}>Salvar</Text>
-                </TouchableOpacity>
+    </View>
+  ))}
+</ScrollView>
 
-             </View>        
-          </View>
-        </View>
-                
-      )}
-      
+{mostrarPopup && (
+  <View style={styles.popupFundo}>
+    <View style={styles.popup}>
+      <Text style={styles.popupTitulo}>
+        {editaMedicamento !== null ? "Editar Remédio" : "Adicionar Remédio"}
+      </Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder={editaMedicamento !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
+        value={novoMedicamento}
+        onChangeText={texto => setNovoMedicamento(texto)}
+      />
+
+      <View style={styles.botoesPopup}>
+        <TouchableOpacity
+          style={[styles.botaoPopup, styles.botaoCancelar]}
+          onPress={() => setMostrarPopup(false)}
+        >
+          <Text style={styles.botaoTexto}>Cancelar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.botaoPopup, styles.botaoConfirmar]}
+          onPress={adicionarMedicamento}
+        >
+          <Text style={styles.botaoTexto}>Salvar</Text>
+        </TouchableOpacity>
+      </View>        
+    </View>
+  </View>     
+)}
+
     
     </SafeAreaView>
   );
@@ -190,12 +221,22 @@ const styles = StyleSheet.create({
   },
   textoRemedio: {
     fontSize: 16,
+    flex:1,
+    flexBasis: 200,
+    
   },
   botaoLixeira: {
+    flex: 1,
     padding: 8,
+    left: 100,
   },
-  iconeLixeira: {
-    fontSize: 20,
+  botaoEdit: {
+    flex: 1,
+    padding: 8,
+    left: 160,
+  },
+  icon:{
+    fontSize: 18,
   },
   botaoPopup: {
     padding: 12,
