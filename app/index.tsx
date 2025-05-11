@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { ScreenStackHeaderRightView } from 'react-native-screens';
 
 
 interface Styles {
@@ -82,17 +83,17 @@ const App: React.FC = () => {
 
 
       <TouchableOpacity
-        style={styles.botaoLixeira}
-        onPress={() => editar(index)}>
-          
-        <Text>{editaMedicamento === index ? "Editar" : "✏️"}</Text>
+        style={styles.botaoEdit}
+        onPress={() => editar(index)}
+        >  
+       <Text style={styles.icon}>✏️</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.botaoLixeira}
         onPress={() => apagarRemedio(index)}
       >
-        <Text style={styles.iconeLixeira}>🗑️</Text>
+        <Text style={styles.icon}>🗑️</Text>
       </TouchableOpacity>
 
 
@@ -220,12 +221,22 @@ const styles = StyleSheet.create({
   },
   textoRemedio: {
     fontSize: 16,
+    flex:1,
+    flexBasis: 200,
+    
   },
   botaoLixeira: {
+    flex: 1,
     padding: 8,
+    left: 100,
   },
-  iconeLixeira: {
-    fontSize: 20,
+  botaoEdit: {
+    flex: 1,
+    padding: 8,
+    left: 160,
+  },
+  icon:{
+    fontSize: 18,
   },
   botaoPopup: {
     padding: 12,
