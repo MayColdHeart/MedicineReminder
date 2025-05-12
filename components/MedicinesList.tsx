@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     botaoEdit: {
         flex: 1,
         padding: 8,
-        left: 160,
+        left: 40,
     },
     icon: {
         fontSize: 18,
@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
     botaoLixeira: {
         flex: 1,
         padding: 8,
-        left: 100,
+        left: 30,
     },
 });
