@@ -2,16 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenStackHeaderRightView } from 'react-native-screens';
-
-
-interface Styles {
-  container: ViewStyle;
-  header: ViewStyle;
-  headerTitle: TextStyle;
-  addButton: ViewStyle;
-  addButtonText: TextStyle;
-  content: ViewStyle;
-}
+import { MedicinesList } from '@/components/MedicinesList';
 
 interface Medicine {
   name: string,
@@ -75,28 +66,11 @@ const App: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content}>
-        {medicamentos.map((remedio, index) => (
-          <View key={index} style={styles.itemRemedio}>
-            <Text style={styles.textoRemedio}>{remedio}</Text>
-
-
-            <TouchableOpacity
-              style={styles.botaoEdit}
-              onPress={() => editar(index)}
-            >
-              <Text style={styles.icon}>✏️</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.botaoLixeira}
-              onPress={() => apagarRemedio(index)}
-            >
-              <Text style={styles.icon}>🗑️</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </ScrollView>
+      <MedicinesList 
+        medicamentos={medicamentos} 
+        editar={editar} 
+        apagarRemedio={apagarRemedio}
+      />
 
       {mostrarPopup && (
         <View style={styles.popupFundo}>
@@ -168,10 +142,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   } as TextStyle,
-  content: {
-    flex: 1,
-    padding: 20,
-  } as ViewStyle,
   popupFundo: {
     position: 'absolute',
     top: 0,
@@ -207,33 +177,6 @@ const styles = StyleSheet.create({
   botaoTexto: {
     color: 'white',
     fontWeight: 'bold',
-  },
-  itemRemedio: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  textoRemedio: {
-    fontSize: 16,
-    flex: 1,
-    flexBasis: 200,
-
-  },
-  botaoLixeira: {
-    flex: 1,
-    padding: 8,
-    left: 100,
-  },
-  botaoEdit: {
-    flex: 1,
-    padding: 8,
-    left: 160,
-  },
-  icon: {
-    fontSize: 18,
   },
   botaoPopup: {
     padding: 12,
