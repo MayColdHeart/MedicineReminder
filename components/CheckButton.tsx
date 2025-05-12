@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
-import { styles } from "./style";
+import { StyleSheet } from "react-native";
+import React from "react";
 
 type Props = TouchableOpacityProps & {
     title: string
@@ -27,3 +28,27 @@ export function CheckButton( {title, ...rest} : Props){
         </TouchableOpacity>
     )
 }
+
+const styles = StyleSheet.create({
+    button1: {
+        width: "25%",
+        height: 45,
+        backgroundColor: "red",
+        borderRadius: 7,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    button2: {
+        width: "25%",
+        height: 45,
+        backgroundColor: "green",
+        borderRadius: 7,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#FFFFFF"
+    }
+})

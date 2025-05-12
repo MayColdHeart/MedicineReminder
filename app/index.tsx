@@ -13,13 +13,17 @@ interface Styles {
   content: ViewStyle;
 }
 
+interface Medicine {
+  name: string,
+  schedules: Date[],
+  taken: boolean
+}
+
 const App: React.FC = () => {
   const [medicamentos, setMedicamentos] = React.useState<string[]>([]);
   const [novoMedicamento, setNovoMedicamento] = React.useState("");
   const [mostrarPopup, setMostrarPopup] = React.useState(false);
   const [editaMedicamento, setEditaMedicamento] = React.useState<number | null>(null);
-
-
 
   const adicionarMedicamento = () => {
     if (novoMedicamento.trim()) {
@@ -29,7 +33,7 @@ const App: React.FC = () => {
         setMedicamentos(novaLista);
         setEditaMedicamento(null);
       } else {
-      setMedicamentos([...medicamentos, novoMedicamento]);
+        setMedicamentos([...medicamentos, novoMedicamento]);
       }
       setNovoMedicamento("");
       setMostrarPopup(false);
@@ -44,7 +48,7 @@ const App: React.FC = () => {
     throw new Error('Function not implemented.');
   }
 
-    const editar = (index: number) => {
+  const editar = (index: number) => {
     setNovoMedicamento(medicamentos[index]);
     setEditaMedicamento(index);
     setMostrarPopup(true);
@@ -55,86 +59,79 @@ const App: React.FC = () => {
       {/* Header Fixo */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Medicine Reminder</Text>
-        <TouchableOpacity 
-          style={[styles.addButton, { backgroundColor: 'white'}]}
-            onPress={() => {
-              setNovoMedicamento(""); 
-              setEditaMedicamento(null);
-              setMostrarPopup(true);
-            }}>
+        <TouchableOpacity
+          style={[styles.addButton, { backgroundColor: 'white' }]}
+          onPress={() => {
+            setNovoMedicamento("");
+            setEditaMedicamento(null);
+            setMostrarPopup(true);
+          }}>
 
-            <Ionicons 
-              name="add-circle-outline" 
-              size={32} 
-              color="#4CAF50"
-            />
-          
-          
-
-        
-
+          <Ionicons
+            name="add-circle-outline"
+            size={32}
+            color="#4CAF50"
+          />
         </TouchableOpacity>
       </View>
 
-<ScrollView style={styles.content}>
-  {medicamentos.map((remedio, index) => (
-    <View key={index} style={styles.itemRemedio}>
-      <Text style={styles.textoRemedio}>{remedio}</Text>
+      <ScrollView style={styles.content}>
+        {medicamentos.map((remedio, index) => (
+          <View key={index} style={styles.itemRemedio}>
+            <Text style={styles.textoRemedio}>{remedio}</Text>
 
 
-      <TouchableOpacity
-        style={styles.botaoEdit}
-        onPress={() => editar(index)}
-        >  
-       <Text style={styles.icon}>✏️</Text>
-      </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.botaoEdit}
+              onPress={() => editar(index)}
+            >
+              <Text style={styles.icon}>✏️</Text>
+            </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.botaoLixeira}
-        onPress={() => apagarRemedio(index)}
-      >
-        <Text style={styles.icon}>🗑️</Text>
-      </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.botaoLixeira}
+              onPress={() => apagarRemedio(index)}
+            >
+              <Text style={styles.icon}>🗑️</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
+
+      {mostrarPopup && (
+        <View style={styles.popupFundo}>
+          <View style={styles.popup}>
+            <Text style={styles.popupTitulo}>
+              {editaMedicamento !== null ? "Editar Remédio" : "Adicionar Remédio"}
+            </Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder={editaMedicamento !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
+              value={novoMedicamento}
+              onChangeText={texto => setNovoMedicamento(texto)}
+            />
+
+            <View style={styles.botoesPopup}>
+              <TouchableOpacity
+                style={[styles.botaoPopup, styles.botaoCancelar]}
+                onPress={() => setMostrarPopup(false)}
+              >
+                <Text style={styles.botaoTexto}>Cancelar</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.botaoPopup, styles.botaoConfirmar]}
+                onPress={adicionarMedicamento}
+              >
+                <Text style={styles.botaoTexto}>Salvar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
 
 
-    </View>
-  ))}
-</ScrollView>
-
-{mostrarPopup && (
-  <View style={styles.popupFundo}>
-    <View style={styles.popup}>
-      <Text style={styles.popupTitulo}>
-        {editaMedicamento !== null ? "Editar Remédio" : "Adicionar Remédio"}
-      </Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder={editaMedicamento !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
-        value={novoMedicamento}
-        onChangeText={texto => setNovoMedicamento(texto)}
-      />
-
-      <View style={styles.botoesPopup}>
-        <TouchableOpacity
-          style={[styles.botaoPopup, styles.botaoCancelar]}
-          onPress={() => setMostrarPopup(false)}
-        >
-          <Text style={styles.botaoTexto}>Cancelar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.botaoPopup, styles.botaoConfirmar]}
-          onPress={adicionarMedicamento}
-        >
-          <Text style={styles.botaoTexto}>Salvar</Text>
-        </TouchableOpacity>
-      </View>        
-    </View>
-  </View>     
-)}
-
-    
     </SafeAreaView>
   );
 };
@@ -221,9 +218,9 @@ const styles = StyleSheet.create({
   },
   textoRemedio: {
     fontSize: 16,
-    flex:1,
+    flex: 1,
     flexBasis: 200,
-    
+
   },
   botaoLixeira: {
     flex: 1,
@@ -235,7 +232,7 @@ const styles = StyleSheet.create({
     padding: 8,
     left: 160,
   },
-  icon:{
+  icon: {
     fontSize: 18,
   },
   botaoPopup: {
@@ -244,13 +241,13 @@ const styles = StyleSheet.create({
     width: '48%',
     alignItems: 'center',
   },
-   botaoCancelar: {
+  botaoCancelar: {
     backgroundColor: '#e0e0e0',
   },
   botaoConfirmar: {
     backgroundColor: '#4caf50',
   },
-  
+
   botoesPopup: {
     flexDirection: 'row',
     justifyContent: 'space-between',
