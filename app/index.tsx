@@ -2,15 +2,12 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenStackHeaderRightView } from 'react-native-screens';
+import { MedicinesList } from '@/components/MedicinesList';
 
-
-interface Styles {
-  container: ViewStyle;
-  header: ViewStyle;
-  headerTitle: TextStyle;
-  addButton: ViewStyle;
-  addButtonText: TextStyle;
-  content: ViewStyle;
+interface Medicine {
+  name: string,
+  schedules: Date[],
+  taken: boolean
 }
 
 const App: React.FC = () => {
@@ -18,8 +15,6 @@ const App: React.FC = () => {
   const [novoMedicamento, setNovoMedicamento] = React.useState("");
   const [mostrarPopup, setMostrarPopup] = React.useState(false);
   const [editaMedicamento, setEditaMedicamento] = React.useState<number | null>(null);
-
-
 
   const adicionarMedicamento = () => {
     if (novoMedicamento.trim()) {
@@ -29,7 +24,7 @@ const App: React.FC = () => {
         setMedicamentos(novaLista);
         setEditaMedicamento(null);
       } else {
-      setMedicamentos([...medicamentos, novoMedicamento]);
+        setMedicamentos([...medicamentos, novoMedicamento]);
       }
       setNovoMedicamento("");
       setMostrarPopup(false);
@@ -44,7 +39,7 @@ const App: React.FC = () => {
     throw new Error('Function not implemented.');
   }
 
-    const editar = (index: number) => {
+  const editar = (index: number) => {
     setNovoMedicamento(medicamentos[index]);
     setEditaMedicamento(index);
     setMostrarPopup(true);
@@ -55,86 +50,62 @@ const App: React.FC = () => {
       {/* Header Fixo */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Medicine Reminder</Text>
-        <TouchableOpacity 
-          style={[styles.addButton, { backgroundColor: 'white'}]}
-            onPress={() => {
-              setNovoMedicamento(""); 
-              setEditaMedicamento(null);
-              setMostrarPopup(true);
-            }}>
+        <TouchableOpacity
+          style={[styles.addButton, { backgroundColor: 'white' }]}
+          onPress={() => {
+            setNovoMedicamento("");
+            setEditaMedicamento(null);
+            setMostrarPopup(true);
+          }}>
 
-            <Ionicons 
-              name="add-circle-outline" 
-              size={32} 
-              color="#4CAF50"
-            />
-          
-          
-
-        
-
+          <Ionicons
+            name="add-circle-outline"
+            size={32}
+            color="#4CAF50"
+          />
         </TouchableOpacity>
       </View>
 
-<ScrollView style={styles.content}>
-  {medicamentos.map((remedio, index) => (
-    <View key={index} style={styles.itemRemedio}>
-      <Text style={styles.textoRemedio}>{remedio}</Text>
-
-
-      <TouchableOpacity
-        style={styles.botaoEdit}
-        onPress={() => editar(index)}
-        >  
-       <Text style={styles.icon}>✏️</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.botaoLixeira}
-        onPress={() => apagarRemedio(index)}
-      >
-        <Text style={styles.icon}>🗑️</Text>
-      </TouchableOpacity>
-
-
-    </View>
-  ))}
-</ScrollView>
-
-{mostrarPopup && (
-  <View style={styles.popupFundo}>
-    <View style={styles.popup}>
-      <Text style={styles.popupTitulo}>
-        {editaMedicamento !== null ? "Editar Remédio" : "Adicionar Remédio"}
-      </Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder={editaMedicamento !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
-        value={novoMedicamento}
-        onChangeText={texto => setNovoMedicamento(texto)}
+      <MedicinesList 
+        medicamentos={medicamentos} 
+        editar={editar} 
+        apagarRemedio={apagarRemedio}
       />
 
-      <View style={styles.botoesPopup}>
-        <TouchableOpacity
-          style={[styles.botaoPopup, styles.botaoCancelar]}
-          onPress={() => setMostrarPopup(false)}
-        >
-          <Text style={styles.botaoTexto}>Cancelar</Text>
-        </TouchableOpacity>
+      {mostrarPopup && (
+        <View style={styles.popupFundo}>
+          <View style={styles.popup}>
+            <Text style={styles.popupTitulo}>
+              {editaMedicamento !== null ? "Editar Remédio" : "Adicionar Remédio"}
+            </Text>
 
-        <TouchableOpacity
-          style={[styles.botaoPopup, styles.botaoConfirmar]}
-          onPress={adicionarMedicamento}
-        >
-          <Text style={styles.botaoTexto}>Salvar</Text>
-        </TouchableOpacity>
-      </View>        
-    </View>
-  </View>     
-)}
+            <TextInput
+              style={styles.input}
+              placeholder={editaMedicamento !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
+              value={novoMedicamento}
+              onChangeText={texto => setNovoMedicamento(texto)}
+            />
 
-    
+            <View style={styles.botoesPopup}>
+              <TouchableOpacity
+                style={[styles.botaoPopup, styles.botaoCancelar]}
+                onPress={() => setMostrarPopup(false)}
+              >
+                <Text style={styles.botaoTexto}>Cancelar</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.botaoPopup, styles.botaoConfirmar]}
+                onPress={adicionarMedicamento}
+              >
+                <Text style={styles.botaoTexto}>Salvar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
+
+
     </SafeAreaView>
   );
 };
@@ -171,10 +142,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   } as TextStyle,
-  content: {
-    flex: 1,
-    padding: 20,
-  } as ViewStyle,
   popupFundo: {
     position: 'absolute',
     top: 0,
@@ -211,46 +178,19 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  itemRemedio: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  textoRemedio: {
-    fontSize: 16,
-    flex:1,
-    flexBasis: 200,
-    
-  },
-  botaoLixeira: {
-    flex: 1,
-    padding: 8,
-    left: 100,
-  },
-  botaoEdit: {
-    flex: 1,
-    padding: 8,
-    left: 160,
-  },
-  icon:{
-    fontSize: 18,
-  },
   botaoPopup: {
     padding: 12,
     borderRadius: 8,
     width: '48%',
     alignItems: 'center',
   },
-   botaoCancelar: {
+  botaoCancelar: {
     backgroundColor: '#e0e0e0',
   },
   botaoConfirmar: {
     backgroundColor: '#4caf50',
   },
-  
+
   botoesPopup: {
     flexDirection: 'row',
     justifyContent: 'space-between',
