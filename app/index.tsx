@@ -2,13 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenStackHeaderRightView } from 'react-native-screens';
-import { MedicinesList } from '@/components/MedicinesList';
-
-interface Medicine {
-  name: string,
-  schedules: Date[],
-  taken: boolean
-}
+import { ListaMedicamento } from '@/components/ListaMedicamento';
+import { Link } from 'expo-router';
 
 const App: React.FC = () => {
   const [medicamentos, setMedicamentos] = React.useState<string[]>([]);
@@ -49,7 +44,7 @@ const App: React.FC = () => {
     <SafeAreaView style={styles.container}>
       {/* Header Fixo */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Medicine Reminder</Text>
+        <Text style={styles.headerTitle}><Link href={"/botao"}>Rascunho</Link></Text>
         <TouchableOpacity
           style={[styles.addButton, { backgroundColor: 'white' }]}
           onPress={() => {
@@ -66,8 +61,8 @@ const App: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <MedicinesList 
-        medicamentos={medicamentos} 
+      <ListaMedicamento 
+        medicamentos={medicamentos}
         editar={editar} 
         apagarRemedio={apagarRemedio}
       />
