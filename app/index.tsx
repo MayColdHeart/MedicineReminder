@@ -2,34 +2,42 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenStackHeaderRightView } from 'react-native-screens';
+import { medicamentos } from '@/fake_data/medicamentos';
 import { ListaMedicamento } from '@/components/ListaMedicamento';
 import { Link } from 'expo-router';
+import Medicamento from '@/interfaces/Medicamento';
 
 const App: React.FC = () => {
-  const [medicamentos, setMedicamentos] = React.useState<string[]>([]);
-  const [novoMedicamento, setNovoMedicamento] = React.useState("");
+
+  //const [medicamentos, setMedicamentos] = React.useState<string[]>([]);
+  const [novoMedicamento, setNovoMedicamento] = React.useState<Medicamento | null>(null);
   const [mostrarPopup, setMostrarPopup] = React.useState(false);
   const [editaMedicamento, setEditaMedicamento] = React.useState<number | null>(null);
 
-  const adicionarMedicamento = () => {
-    if (novoMedicamento.trim()) {
-      if (editaMedicamento !== null) {
-        const novaLista = [...medicamentos];
-        novaLista[editaMedicamento] = novoMedicamento;
-        setMedicamentos(novaLista);
-        setEditaMedicamento(null);
-      } else {
-        setMedicamentos([...medicamentos, novoMedicamento]);
-      }
-      setNovoMedicamento("");
-      setMostrarPopup(false);
-    }
-    const apagarRemedio = (index: number) => {
-      const novaLista = [...medicamentos];
-      novaLista.splice(index, 1);
-      setMedicamentos(novaLista);
-    }
-  };
+  // const adicionarMedicamento = () => {
+  //   if (novoMedicamento.trim()) {
+  //     if (editaMedicamento !== null) {
+  //       const novaLista = [...medicamentos];
+  //       novaLista[editaMedicamento] = novoMedicamento;
+  //       setMedicamentos(novaLista);
+  //       setEditaMedicamento(null);
+  //     } else {
+  //       setMedicamentos([...medicamentos, novoMedicamento]);
+  //     }
+  //     setNovoMedicamento("");
+  //     setMostrarPopup(false);
+  //   }
+  //   const apagarRemedio = (index: number) => {
+  //     const novaLista = [...medicamentos];
+  //     novaLista.splice(index, 1);
+  //     setMedicamentos(novaLista);
+  //   }
+  // };
+
+  function adicionarMedicamento(): void {
+    throw new Error('Function not implemented.');
+  }
+
   function apagarRemedio(index: number): void {
     throw new Error('Function not implemented.');
   }
@@ -48,7 +56,7 @@ const App: React.FC = () => {
         <TouchableOpacity
           style={[styles.addButton, { backgroundColor: 'white' }]}
           onPress={() => {
-            setNovoMedicamento("");
+            setNovoMedicamento(null);
             setEditaMedicamento(null);
             setMostrarPopup(true);
           }}>
@@ -77,7 +85,7 @@ const App: React.FC = () => {
             <TextInput
               style={styles.input}
               placeholder={editaMedicamento !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
-              value={novoMedicamento}
+              value={novoMedicamento?.nome}
               onChangeText={texto => setNovoMedicamento(texto)}
             />
 
