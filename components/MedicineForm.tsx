@@ -7,8 +7,18 @@ type MedicineFormProps = {
     setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
 }
 
-const MedicineForm = ({setShowMedicineForm} : MedicineFormProps) => {
-    const [newMedicine, setNewMedicine] = useState<Medicine>();
+const MedicineForm = ({ setShowMedicineForm }: MedicineFormProps) => {
+    // To add new id, you need to take the greater id from a list, this assure that even when deleting values in the middle, you can use an AUTOINCREMENT id.
+    let medicineLastId = 0;
+    if(medicines.length !== 0) medicineLastId = medicines[medicines.length-1].id;
+
+    const [newMedicine, setNewMedicine] = useState<Medicine>({
+        id: (medicineLastId + 1),
+        medicineName: "",
+        schedule: [],
+        dosage: 0,
+        dosageUnit: "",
+    });
 
     return (
         <View style={styles.popupFundo}>
@@ -20,9 +30,16 @@ const MedicineForm = ({setShowMedicineForm} : MedicineFormProps) => {
                 <TextInput
                     style={styles.input}
                     placeholder={null !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
-                    value={""}
-                    onChangeText={() => {newMedicine?.medicineName}}
+                    value={newMedicine.medicineName}
+                    onChangeText={(medicineName) => {setNewMedicine({...newMedicine, medicineName: medicineName})}}
                 />
+
+                {/* <TextInput
+                    style={styles.input}
+                    placeholder={null !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
+                    value={newMedicine.medicineName}
+                    onChangeText={(medicineName) => {setNewMedicine({...newMedicine, medicineName: medicineName})}}
+                /> */}
 
                 <View style={styles.botoesPopup}>
                     <TouchableOpacity
@@ -34,7 +51,10 @@ const MedicineForm = ({setShowMedicineForm} : MedicineFormProps) => {
 
                     <TouchableOpacity
                         style={[styles.formButton, styles.saveButton]}
-                        onPress={() => { }}
+                        onPress={() => {
+                            medicines.push(newMedicine);
+                            setShowMedicineForm(false);
+                        }}
                     >
                         <Text style={styles.textButton}>Salvar</Text>
                     </TouchableOpacity>

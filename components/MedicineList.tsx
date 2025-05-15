@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
 import React from "react";
@@ -16,7 +16,9 @@ type MedicineListProps = {
 }
 
 const MedicineItem = ({medicine} : MedicineItemProps) => {
-    return (
+    const [isDeleted, setIsDeleted] = useState(false);
+
+    return !isDeleted && (
         <View style={styles.itemRemedio}>
             <Text style={styles.textoRemedio}>{medicine.medicineName}</Text>
 
@@ -29,7 +31,11 @@ const MedicineItem = ({medicine} : MedicineItemProps) => {
 
             <TouchableOpacity
             style={styles.botaoLixeira}
-            onPress={() => {}}
+            onPress={() => {
+                const index = medicines.findIndex(searchMedicine => searchMedicine.id === medicine.id);
+                medicines.splice(index, 1);
+                setIsDeleted(true);
+            }}
             >
             <FontAwesome5 name="trash-alt" size={24} color={colors.text} />
             </TouchableOpacity>
