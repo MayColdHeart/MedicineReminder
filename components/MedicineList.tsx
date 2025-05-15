@@ -2,8 +2,9 @@ import { useState } from "react";
 import { FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
 import React from "react";
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import Medicamento from "@/interfaces/Medicine";
-import { medicines } from "@/fake_data/medicines";
+import { colors } from "@/constants/colors";
 
 type MedicamentoItemProps = {
     medicine: Medicamento
@@ -22,14 +23,14 @@ const MedicineItem = ({medicine} : MedicamentoItemProps) => {
             style={styles.botaoEdit}
             onPress={() => {}}
             >
-            <Text style={styles.icon}>✏️</Text>
+            <FontAwesome5 name="edit" size={24} color={colors.text} />
             </TouchableOpacity>
 
             <TouchableOpacity
             style={styles.botaoLixeira}
             onPress={() => {}}
             >
-            <Text style={styles.icon}>🗑️</Text>
+            <FontAwesome5 name="trash-alt" size={24} color={colors.text} />
             </TouchableOpacity>
         </View>
     );
