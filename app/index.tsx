@@ -5,6 +5,7 @@ import { ScreenStackHeaderRightView } from 'react-native-screens';
 import {medicines } from '@/fake_data/medicines';
 import { Link } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
+import Time from '@/components/Time';
 
 const App = () => {
     const [showPopup, setShowPopup] = useState(false);
@@ -13,7 +14,7 @@ const App = () => {
         <SafeAreaView style={styles.container}>
             {/* Header Fixo */}
             <View style={styles.header}>
-                <Text style={styles.headerTitle}><Link href={"/botao"}>Rascunho</Link></Text>
+                <Text style={styles.headerTitle}><Link href={"/botao"}>Rascunho</Link> <Time/> </Text>
                 <TouchableOpacity
                     style={[styles.addButton, { backgroundColor: 'white' }]}
                     onPress={() => { }}>
