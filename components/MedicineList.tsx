@@ -4,6 +4,8 @@ import { StyleSheet } from "react-native";
 import React from "react";
 import Medicine from "@/interfaces/Medicine";
 import { medicines } from "@/fake_data/medicines";
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { colors } from "@/constants/colors";
 
 type MedicineItemProps = {
     medicine: Medicine
@@ -22,14 +24,14 @@ const MedicineItem = ({medicine} : MedicineItemProps) => {
             style={styles.botaoEdit}
             onPress={() => {}}
             >
-            <Text style={styles.icon}>✏️</Text>
+            <FontAwesome5 name="edit" size={24} color={colors.text} />
             </TouchableOpacity>
 
             <TouchableOpacity
             style={styles.botaoLixeira}
             onPress={() => {}}
             >
-            <Text style={styles.icon}>🗑️</Text>
+            <FontAwesome5 name="trash-alt" size={24} color={colors.text} />
             </TouchableOpacity>
         </View>
     );
