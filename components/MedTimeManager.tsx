@@ -9,28 +9,37 @@ type Props = {
 const MedTimeManager = ({ medicines }: Props) => {
   const now = new Date();
 
+
+  //Found the nextDose (.map, .filter and .sort)
   const sortedMedicines = medicines
     .map((medicine) => {
       const nextDose = medicine.schedule
         .filter((scheduleItem) => !scheduleItem.isTaken && scheduleItem.hour > now)
-        .sort((firstItem, secondItem) => firstItem.hour.getTime() - secondItem.hour.getTime())[0] || null;
+        .sort((firstScheduleItem, SecScheduleItem) => firstScheduleItem.hour.getTime() - SecScheduleItem.hour.getTime())[0] || null;
 
+        //medicine -> complete
+        //nextDose -> next dose or null
       return {
         medicine,
         nextDose,
       };
     })
-    .filter((entry) => entry.nextDose !== null)
-    .sort((a, b) => {
-      if (!a.nextDose || !b.nextDose) return 0;
-      return a.nextDose.hour.getTime() - b.nextDose.hour.getTime();
+    //no have future dose?, clr
+    .filter((medicineEntry) => medicineEntry.nextDose !== null)
+  
+   
+    // ordn by prox dose 
+    .sort((firstScheduleItem, SecScheduleItem) => {
+      if (!firstScheduleItem.nextDose || !SecScheduleItem.nextDose) return 0;
+      return firstScheduleItem.nextDose.hour.getTime() - SecScheduleItem.nextDose.hour.getTime();
     });
 
-  const renderMedicine = ({ item }: { item: typeof sortedMedicines[0] }) => (
+
+  const showMedManager = ({ item }: { item: typeof sortedMedicines[0] }) => (
     <View style={styles.medicineItem}>
       <Text style={styles.medicineName}>{item.medicine.medicineName}</Text>
       <Text style={styles.medicineTime}>
-        Próximo horário: {item.nextDose?.hour.toLocaleString("pt-BR")}
+        Próximo horário da dose: {item.nextDose?.hour.toLocaleString("pt-BR")}
       </Text>
     </View>
   );
@@ -40,7 +49,7 @@ const MedTimeManager = ({ medicines }: Props) => {
       style={styles.list}
       data={sortedMedicines}
       keyExtractor={(item) => item.medicine.id.toString()}
-      renderItem={renderMedicine}
+      renderItem={showMedManager}
     />
   );
 };
@@ -50,15 +59,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+
   medicineItem: {
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
+
   medicineName: {
-    fontSize: 16,
     fontWeight: "bold",
+    fontSize: 16,
   },
+
   medicineTime: {
     fontSize: 14,
     color: "#555",
