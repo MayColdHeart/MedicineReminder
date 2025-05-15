@@ -5,9 +5,11 @@ import Medicine from '@/interfaces/Medicine';
 
 type MedicineFormProps = {
     setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
+    updatingMedicine: boolean,
+    setUpdatingMedicine: (isUpdating: React.SetStateAction<boolean>) => void,
 }
 
-const MedicineForm = ({ setShowMedicineForm }: MedicineFormProps) => {
+const MedicineForm = ({ setShowMedicineForm, updatingMedicine, setUpdatingMedicine }: MedicineFormProps) => {
     // To add new id, you need to take the greater id from a list, this assure that even when deleting values in the middle, you can use an AUTOINCREMENT id.
     let medicineLastId = 0;
     if(medicines.length !== 0) medicineLastId = medicines[medicines.length-1].id;
@@ -24,7 +26,7 @@ const MedicineForm = ({ setShowMedicineForm }: MedicineFormProps) => {
         <View style={styles.popupFundo}>
             <View style={styles.popup}>
                 <Text style={styles.popupTitulo}>
-                    {null !== null ? "Editar Remédio" : "Adicionar Remédio"}
+                    {updatingMedicine ? "Editar Remédio" : "Adicionar Remédio"}
                 </Text>
 
                 <TextInput
@@ -44,7 +46,10 @@ const MedicineForm = ({ setShowMedicineForm }: MedicineFormProps) => {
                 <View style={styles.botoesPopup}>
                     <TouchableOpacity
                         style={[styles.formButton, styles.cancelButton]}
-                        onPress={() => setShowMedicineForm(false)}
+                        onPress={() => {
+                            setShowMedicineForm(false);
+                            setUpdatingMedicine(false);
+                        }}
                     >
                         <Text style={styles.textButton}>Cancelar</Text>
                     </TouchableOpacity>
@@ -54,6 +59,7 @@ const MedicineForm = ({ setShowMedicineForm }: MedicineFormProps) => {
                         onPress={() => {
                             medicines.push(newMedicine);
                             setShowMedicineForm(false);
+                            setUpdatingMedicine(false);
                         }}
                     >
                         <Text style={styles.textButton}>Salvar</Text>

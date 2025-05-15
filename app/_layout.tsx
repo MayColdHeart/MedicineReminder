@@ -9,11 +9,5 @@ export default function RootLayout() {
         headerShown: false
       }}
     />
-    <Stack.Screen 
-      name="test"
-      options={{
-        headerShown: false
-      }}
-    />
   </Stack>
 }

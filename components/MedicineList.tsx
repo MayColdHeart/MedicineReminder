@@ -8,14 +8,18 @@ import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { colors } from "@/constants/colors";
 
 type MedicineItemProps = {
-    medicine: Medicine
+    medicine: Medicine,
+    setUpdatingMedicine: (isUpdating: React.SetStateAction<boolean>) => void,
+    setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
 }
 
 type MedicineListProps = {
     medicines: Medicine[]
+    setUpdatingMedicine: (isUpdating: React.SetStateAction<boolean>) => void,
+    setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
 }
 
-const MedicineItem = ({medicine} : MedicineItemProps) => {
+const MedicineItem = ({medicine, setUpdatingMedicine, setShowMedicineForm} : MedicineItemProps) => {
     const [isDeleted, setIsDeleted] = useState(false);
 
     return !isDeleted && (
@@ -24,7 +28,10 @@ const MedicineItem = ({medicine} : MedicineItemProps) => {
 
             <TouchableOpacity
             style={styles.botaoEdit}
-            onPress={() => {}}
+            onPress={() => {
+                setShowMedicineForm(true); 
+                setUpdatingMedicine(true);
+            }}
             >
             <FontAwesome5 name="edit" size={24} color={colors.text} />
             </TouchableOpacity>
@@ -43,15 +50,16 @@ const MedicineItem = ({medicine} : MedicineItemProps) => {
     );
 }
 
-const MedicineList = ({ medicines }: MedicineListProps) => {
+const MedicineList = ({ medicines, setUpdatingMedicine, setShowMedicineForm }: MedicineListProps) => {
     return (
         <FlatList style={styles.content}
-            //ListHeaderComponent={<Header />}
-            //ListHeaderComponentStyle={styles.header}
             data= {medicines}
-            renderItem={({item}) => <MedicineItem medicine={item} />}
+            renderItem={({item}) => <MedicineItem 
+                                        medicine={item}
+                                        setUpdatingMedicine={setUpdatingMedicine}
+                                        setShowMedicineForm={setShowMedicineForm}
+                                    />}
             keyExtractor={(item) => item.id.toString()}
-            //contentContainerStyle={styles.routeList}
         />
     );
 

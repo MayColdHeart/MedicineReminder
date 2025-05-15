@@ -6,17 +6,14 @@ import { Link } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
 
-const addNewMedicine = () => {
-    
-}
-
 const App = () => {
     const [showMedicineForm, setShowMedicineForm] = useState(false);
+    const [updatingMedicine, setUpdatingMedicine] = useState(false);
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerTitle}><Link href={"/test"}>Rascunho</Link></Text>
+                <Text style={styles.headerTitle}>MedicineReminder</Text>
                 <TouchableOpacity
                     style={[styles.addButton, { backgroundColor: 'white' }]}
                     onPress={() => setShowMedicineForm(true)}>
@@ -31,9 +28,15 @@ const App = () => {
 
             <MedicineList
                 medicines={medicines}
+                setUpdatingMedicine={setUpdatingMedicine}
+                setShowMedicineForm={setShowMedicineForm}
             />
 
-            {showMedicineForm && (<MedicineForm setShowMedicineForm={setShowMedicineForm}/>)}
+            {showMedicineForm && (<MedicineForm 
+                                    setShowMedicineForm={setShowMedicineForm}
+                                    setUpdatingMedicine={setUpdatingMedicine}
+                                    updatingMedicine={updatingMedicine}
+                                />)}
         </SafeAreaView>
     );
 };
