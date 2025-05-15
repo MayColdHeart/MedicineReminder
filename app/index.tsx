@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenStackHeaderRightView } from 'react-native-screens';
 import {medicines } from '@/fake_data/medicines';
 import { Link } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import Time from '@/components/Time';
-import MedTimeManager from '@/components/MedTimeManager';
+import MedTimeManager from "@/components/MedTimeManager";
 
 const App = () => {
     const [showPopup, setShowPopup] = useState(false);
@@ -16,7 +16,9 @@ const App = () => {
             {/* Header Fixo */}
             <View style={styles.header}>
                 <Text style={styles.headerTitle}><Link href={"/botao"}>Rascunho</Link> <Time/> </Text>
+                
                 <TouchableOpacity
+                
                     style={[styles.addButton, { backgroundColor: 'white' }]}
                     onPress={() => { }}>
 
@@ -27,8 +29,9 @@ const App = () => {
                     />
                     
                 </TouchableOpacity>
+                
             </View>
-            <MedTimeManager medicines={medicines} />
+       
 
             <MedicineList medicines={medicines} />
                 

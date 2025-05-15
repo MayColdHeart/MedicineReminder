@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import React from "react";
 import Medicine from "@/interfaces/Medicine";
 import { medicines } from "@/fake_data/medicines";
+import MedTimeManager from "@/components/MedTimeManager";
 
 type MedicineItemProps = {
     medicine: Medicine
@@ -16,7 +17,9 @@ type MedicineListProps = {
 const MedicineItem = ({medicine} : MedicineItemProps) => {
     return (
         <View style={styles.itemRemedio}>
-            <Text style={styles.textoRemedio}>{medicine.medicineName}</Text>
+                 <MedTimeManager medicines={[medicine]} />
+ 
+
 
             <TouchableOpacity
             style={styles.botaoEdit}
