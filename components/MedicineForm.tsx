@@ -21,7 +21,7 @@ const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine
             id: (medicineLastId + 1),
             medicineName: "",
             schedule: [],
-            dosage: 0,
+            dosage: null,
             dosageUnit: "",
         }
     );
@@ -29,6 +29,24 @@ const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine
     const currentMedicineIndex = medicines.findIndex(m => m.id === currentMedicineId);
     const currentMedicine = medicines[currentMedicineIndex];
     const [updatedMedicine, setUpdatedMedicine] = useState({... currentMedicine});
+
+    const handleNumericInputChange = (value: string | null, key: string) => {
+        if (updatingMedicine) {
+            if(!value) setUpdatedMedicine({ ...updatedMedicine, [key]: null});
+            else setUpdatedMedicine({ ...updatedMedicine, [key]: parseInt(value, 10)});
+        } else {
+            if(!value) setNewMedicine({ ...updatedMedicine, dosage: null});
+            else setNewMedicine({ ...newMedicine, [key]: parseInt(value, 10) });
+        }
+    }
+
+    const handleTextInputChange = (value: string | null, key: string) => {
+        if (updatingMedicine) {
+            setUpdatedMedicine({ ...updatedMedicine, [key]: value});
+        } else {
+            setNewMedicine({ ...newMedicine, [key]: value })
+        }
+    }
 
     return (
         <View style={styles.popupFundo}>
@@ -41,21 +59,19 @@ const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine
                     style={styles.input}
                     placeholder={updatingMedicine !== false ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
                     value={updatingMedicine ? updatedMedicine.medicineName : newMedicine.medicineName}
-                    onChangeText={(medicineName) => {
-                        if (updatingMedicine) {
-                            setUpdatedMedicine({ ...updatedMedicine, medicineName: medicineName});
-                        } else {
-                            setNewMedicine({ ...newMedicine, medicineName: medicineName })
-                        }
-                    }}
+                    onChangeText={(medicineName) => handleTextInputChange(medicineName, "medicineName")}
                 />
 
-                {/* <TextInput
+                <TextInput
                     style={styles.input}
-                    placeholder={null !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
-                    value={newMedicine.medicineName}
-                    onChangeText={(medicineName) => {setNewMedicine({...newMedicine, medicineName: medicineName})}}
-                /> */}
+                    placeholder={updatingMedicine !== false ? "Editar dosagem..." : "Digite a dosagem (Ex: 15)"}
+                    defaultValue=''
+                    keyboardType='numeric'
+                    value={
+                        updatingMedicine ? updatedMedicine.dosage?.toString() : newMedicine.dosage?.toString()
+                    }
+                    onChangeText={(dosage) => handleNumericInputChange(dosage, "dosage")}
+                />
 
                 <View style={styles.botoesPopup}>
                     <TouchableOpacity
@@ -76,8 +92,8 @@ const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine
 
                             if(updatingMedicine) {
                                 currentMedicine.medicineName = updatedMedicine.medicineName;
-                                currentMedicine.dosageUnit = updatedMedicine.dosageUnit;
                                 currentMedicine.dosage = updatedMedicine.dosage;
+                                currentMedicine.dosageUnit = updatedMedicine.dosageUnit;
                                 //currentMedicine.schedule
                             }
                             else {
