@@ -2,18 +2,18 @@ import { useState } from "react";
 import { FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
 import React from "react";
-import Medicamento from "@/interfaces/Medicine";
+import Medicine from "@/interfaces/Medicine";
 import { medicines } from "@/fake_data/medicines";
 
-type MedicamentoItemProps = {
-    medicine: Medicamento
+type MedicineItemProps = {
+    medicine: Medicine
 }
 
-type ListaMedicamentoProps = {
-    medicines: Medicamento[]
+type MedicineListProps = {
+    medicines: Medicine[]
 }
 
-const MedicineItem = ({medicine} : MedicamentoItemProps) => {
+const MedicineItem = ({medicine} : MedicineItemProps) => {
     return (
         <View style={styles.itemRemedio}>
             <Text style={styles.textoRemedio}>{medicine.medicineName}</Text>
@@ -35,7 +35,7 @@ const MedicineItem = ({medicine} : MedicamentoItemProps) => {
     );
 }
 
-const MedicineList = ({ medicines }: ListaMedicamentoProps) => {
+const MedicineList = ({ medicines }: MedicineListProps) => {
     return (
         <FlatList style={styles.content}
             //ListHeaderComponent={<Header />}
