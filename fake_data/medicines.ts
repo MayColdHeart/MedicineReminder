@@ -3,7 +3,9 @@ import Medicine from "@/interfaces/Medicine";
 const dateNow = new Date();
 
 const dateAfter = new Date(dateNow);
-dateAfter.setHours(dateAfter.getHours() + 12);
+dateAfter.setHours(dateAfter.getHours() + 0);
+dateAfter.setMinutes(dateAfter.getMinutes() + 1);
+
 
 const dateMoreAfter = new Date(dateAfter);
 dateMoreAfter.setHours(dateMoreAfter.getHours() + 8);
