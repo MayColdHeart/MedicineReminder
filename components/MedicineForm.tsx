@@ -79,9 +79,6 @@ const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine
                                 currentMedicine.dosageUnit = updatedMedicine.dosageUnit;
                                 currentMedicine.dosage = updatedMedicine.dosage;
                                 //currentMedicine.schedule
-
-                                console.log(updatedMedicine);
-                                console.log(currentMedicine);
                             }
                             else {
                                 medicines.push(newMedicine);
