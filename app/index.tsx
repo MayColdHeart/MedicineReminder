@@ -6,6 +6,7 @@ import {medicines } from '@/fake_data/medicines';
 import { Link } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import Time from '@/components/Time';
+import MedTimeManager from '@/components/MedTimeManager';
 
 const App = () => {
     const [showPopup, setShowPopup] = useState(false);
@@ -29,7 +30,9 @@ const App = () => {
 
             <MedicineList
                 medicines={medicines}
+                
             />
+                <MedTimeManager medicines={medicines} />
 
             {showPopup && (
                 <View style={styles.popupFundo}>
