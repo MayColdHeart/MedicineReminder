@@ -5,22 +5,30 @@ import Medicine from '@/interfaces/Medicine';
 
 type MedicineFormProps = {
     setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
+    currentMedicineId: number | null
     updatingMedicine: boolean,
     setUpdatingMedicine: (isUpdating: React.SetStateAction<boolean>) => void,
 }
 
-const MedicineForm = ({ setShowMedicineForm, updatingMedicine, setUpdatingMedicine }: MedicineFormProps) => {
+const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine, setUpdatingMedicine }: MedicineFormProps) => {
     // To add new id, you need to take the greater id from a list, this assure that even when deleting values in the middle, you can use an AUTOINCREMENT id.
     let medicineLastId = 0;
-    if(medicines.length !== 0) medicineLastId = medicines[medicines.length-1].id;
+    if (medicines.length !== 0) medicineLastId = medicines[medicines.length - 1].id;
 
-    const [newMedicine, setNewMedicine] = useState<Medicine>({
-        id: (medicineLastId + 1),
-        medicineName: "",
-        schedule: [],
-        dosage: 0,
-        dosageUnit: "",
-    });
+    // TODO: optmize, if is updating, no need to create newMessage, if newMessage, no need to search updatedMessage
+    const [newMedicine, setNewMedicine] = useState<Medicine>(
+        {
+            id: (medicineLastId + 1),
+            medicineName: "",
+            schedule: [],
+            dosage: 0,
+            dosageUnit: "",
+        }
+    );
+
+    const currentMedicineIndex = medicines.findIndex(m => m.id === currentMedicineId);
+    const currentMedicine = medicines[currentMedicineIndex];
+    const [updatedMedicine, setUpdatedMedicine] = useState({... currentMedicine});
 
     return (
         <View style={styles.popupFundo}>
@@ -31,9 +39,15 @@ const MedicineForm = ({ setShowMedicineForm, updatingMedicine, setUpdatingMedici
 
                 <TextInput
                     style={styles.input}
-                    placeholder={null !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
-                    value={newMedicine.medicineName}
-                    onChangeText={(medicineName) => {setNewMedicine({...newMedicine, medicineName: medicineName})}}
+                    placeholder={updatingMedicine !== false ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
+                    value={updatingMedicine ? updatedMedicine.medicineName : newMedicine.medicineName}
+                    onChangeText={(medicineName) => {
+                        if (updatingMedicine) {
+                            setUpdatedMedicine({ ...updatedMedicine, medicineName: medicineName});
+                        } else {
+                            setNewMedicine({ ...newMedicine, medicineName: medicineName })
+                        }
+                    }}
                 />
 
                 {/* <TextInput
@@ -57,9 +71,21 @@ const MedicineForm = ({ setShowMedicineForm, updatingMedicine, setUpdatingMedici
                     <TouchableOpacity
                         style={[styles.formButton, styles.saveButton]}
                         onPress={() => {
-                            medicines.push(newMedicine);
                             setShowMedicineForm(false);
                             setUpdatingMedicine(false);
+
+                            if(updatingMedicine) {
+                                currentMedicine.medicineName = updatedMedicine.medicineName;
+                                currentMedicine.dosageUnit = updatedMedicine.dosageUnit;
+                                currentMedicine.dosage = updatedMedicine.dosage;
+                                //currentMedicine.schedule
+
+                                console.log(updatedMedicine);
+                                console.log(currentMedicine);
+                            }
+                            else {
+                                medicines.push(newMedicine);
+                            }
                         }}
                     >
                         <Text style={styles.textButton}>Salvar</Text>

@@ -9,6 +9,7 @@ import MedicineForm from '@/components/MedicineForm';
 const App = () => {
     const [showMedicineForm, setShowMedicineForm] = useState(false);
     const [updatingMedicine, setUpdatingMedicine] = useState(false);
+    const [currentMedicineId, setCurrentMedicineId] = useState<number>(0); // used to edit in medicine form
 
     return (
         <SafeAreaView style={styles.container}>
@@ -30,12 +31,14 @@ const App = () => {
                 medicines={medicines}
                 setUpdatingMedicine={setUpdatingMedicine}
                 setShowMedicineForm={setShowMedicineForm}
+                setCurrentMedicineId={setCurrentMedicineId}
             />
 
             {showMedicineForm && (<MedicineForm 
                                     setShowMedicineForm={setShowMedicineForm}
                                     setUpdatingMedicine={setUpdatingMedicine}
                                     updatingMedicine={updatingMedicine}
+                                    currentMedicineId={currentMedicineId}
                                 />)}
         </SafeAreaView>
     );

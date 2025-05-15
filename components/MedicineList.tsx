@@ -11,15 +11,17 @@ type MedicineItemProps = {
     medicine: Medicine,
     setUpdatingMedicine: (isUpdating: React.SetStateAction<boolean>) => void,
     setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
+    setCurrentMedicineId: (medicineId: React.SetStateAction<number>) => void
 }
 
 type MedicineListProps = {
     medicines: Medicine[]
     setUpdatingMedicine: (isUpdating: React.SetStateAction<boolean>) => void,
     setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
+    setCurrentMedicineId: (medicineId: React.SetStateAction<number>) => void
 }
 
-const MedicineItem = ({medicine, setUpdatingMedicine, setShowMedicineForm} : MedicineItemProps) => {
+const MedicineItem = ({medicine, setUpdatingMedicine, setShowMedicineForm, setCurrentMedicineId} : MedicineItemProps) => {
     const [isDeleted, setIsDeleted] = useState(false);
 
     return !isDeleted && (
@@ -31,6 +33,7 @@ const MedicineItem = ({medicine, setUpdatingMedicine, setShowMedicineForm} : Med
             onPress={() => {
                 setShowMedicineForm(true); 
                 setUpdatingMedicine(true);
+                setCurrentMedicineId(medicine.id)
             }}
             >
             <FontAwesome5 name="edit" size={24} color={colors.text} />
@@ -50,7 +53,7 @@ const MedicineItem = ({medicine, setUpdatingMedicine, setShowMedicineForm} : Med
     );
 }
 
-const MedicineList = ({ medicines, setUpdatingMedicine, setShowMedicineForm }: MedicineListProps) => {
+const MedicineList = ({ medicines, setUpdatingMedicine, setShowMedicineForm, setCurrentMedicineId}: MedicineListProps) => {
     return (
         <FlatList style={styles.content}
             data= {medicines}
@@ -58,6 +61,7 @@ const MedicineList = ({ medicines, setUpdatingMedicine, setShowMedicineForm }: M
                                         medicine={item}
                                         setUpdatingMedicine={setUpdatingMedicine}
                                         setShowMedicineForm={setShowMedicineForm}
+                                        setCurrentMedicineId={setCurrentMedicineId}
                                     />}
             keyExtractor={(item) => item.id.toString()}
         />
