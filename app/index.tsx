@@ -25,14 +25,13 @@ const App = () => {
                         size={32}
                         color="#4CAF50"
                     />
+                    
                 </TouchableOpacity>
             </View>
+            <MedTimeManager medicines={medicines} />
 
-            <MedicineList
-                medicines={medicines}
+            <MedicineList medicines={medicines} />
                 
-            />
-                <MedTimeManager medicines={medicines} />
 
             {showPopup && (
                 <View style={styles.popupFundo}>

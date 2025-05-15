@@ -39,7 +39,7 @@ const MedTimeManager = ({ medicines }: Props) => {
     <View style={styles.medicineItem}>
       <Text style={styles.medicineName}>{item.medicine.medicineName}</Text>
       <Text style={styles.medicineTime}>
-        Próximo horário da dose: {item.nextDose?.hour.toLocaleString("pt-BR")}
+        Próximo horário da dose: {item.nextDose?.hour.toLocaleString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
       </Text>
     </View>
   );
