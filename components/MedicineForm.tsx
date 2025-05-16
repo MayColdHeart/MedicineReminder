@@ -1,0 +1,152 @@
+import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { medicines } from '@/fake_data/medicines';
+import Medicine from '@/interfaces/Medicine';
+
+type MedicineFormProps = {
+    setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
+    currentMedicineId: number | null
+    updatingMedicine: boolean,
+    setUpdatingMedicine: (isUpdating: React.SetStateAction<boolean>) => void,
+}
+
+const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine, setUpdatingMedicine }: MedicineFormProps) => {
+    // To add new id, you need to take the greater id from a list, this assure that even when deleting values in the middle, you can use an AUTOINCREMENT id.
+    let medicineLastId = 0;
+    if (medicines.length !== 0) medicineLastId = medicines[medicines.length - 1].id;
+
+    // TODO: optmize, if is updating, no need to create newMessage, if newMessage, no need to search updatedMessage
+    const [newMedicine, setNewMedicine] = useState<Medicine>(
+        {
+            id: (medicineLastId + 1),
+            medicineName: "",
+            schedule: [],
+            dosage: 0,
+            dosageUnit: "",
+        }
+    );
+
+    const currentMedicineIndex = medicines.findIndex(m => m.id === currentMedicineId);
+    const currentMedicine = medicines[currentMedicineIndex];
+    const [updatedMedicine, setUpdatedMedicine] = useState({... currentMedicine});
+
+    return (
+        <View style={styles.popupFundo}>
+            <View style={styles.popup}>
+                <Text style={styles.popupTitulo}>
+                    {updatingMedicine ? "Editar Remédio" : "Adicionar Remédio"}
+                </Text>
+
+                <TextInput
+                    style={styles.input}
+                    placeholder={updatingMedicine !== false ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
+                    value={updatingMedicine ? updatedMedicine.medicineName : newMedicine.medicineName}
+                    onChangeText={(medicineName) => {
+                        if (updatingMedicine) {
+                            setUpdatedMedicine({ ...updatedMedicine, medicineName: medicineName});
+                        } else {
+                            setNewMedicine({ ...newMedicine, medicineName: medicineName })
+                        }
+                    }}
+                />
+
+                {/* <TextInput
+                    style={styles.input}
+                    placeholder={null !== null ? "Editar medicamento.." : "Digite o nome (Ex: Dipirona)"}
+                    value={newMedicine.medicineName}
+                    onChangeText={(medicineName) => {setNewMedicine({...newMedicine, medicineName: medicineName})}}
+                /> */}
+
+                <View style={styles.botoesPopup}>
+                    <TouchableOpacity
+                        style={[styles.formButton, styles.cancelButton]}
+                        onPress={() => {
+                            setShowMedicineForm(false);
+                            setUpdatingMedicine(false);
+                        }}
+                    >
+                        <Text style={styles.textButton}>Cancelar</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={[styles.formButton, styles.saveButton]}
+                        onPress={() => {
+                            setShowMedicineForm(false);
+                            setUpdatingMedicine(false);
+
+                            if(updatingMedicine) {
+                                currentMedicine.medicineName = updatedMedicine.medicineName;
+                                currentMedicine.dosageUnit = updatedMedicine.dosageUnit;
+                                currentMedicine.dosage = updatedMedicine.dosage;
+                                //currentMedicine.schedule
+                            }
+                            else {
+                                medicines.push(newMedicine);
+                            }
+                        }}
+                    >
+                        <Text style={styles.textButton}>Salvar</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    popupFundo: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    popup: {
+        width: '85%',
+        backgroundColor: 'white',
+        borderRadius: 15,
+        padding: 20,
+        elevation: 10,
+    },
+    popupTitulo: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 15,
+        color: '#3f51b5',
+        textAlign: 'center',
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ddd',
+        padding: 12,
+        marginBottom: 15,
+        borderRadius: 8,
+        fontSize: 16,
+    },
+    textButton: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    formButton: {
+        padding: 12,
+        borderRadius: 8,
+        width: '48%',
+        alignItems: 'center',
+    },
+    cancelButton: {
+        backgroundColor: '#e0e0e0',
+    },
+    saveButton: {
+        backgroundColor: '#4caf50',
+    },
+
+    botoesPopup: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+});
+
+export default MedicineForm;
