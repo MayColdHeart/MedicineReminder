@@ -5,6 +5,9 @@ import { medicines } from '@/fake_data/medicines';
 import { Link } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
+import Time from '@/components/Time';
+import MedTimeManager from "@/components/MedTimeManager";
+
 
 const App = () => {
     const [showMedicineForm, setShowMedicineForm] = useState(false);
@@ -14,8 +17,11 @@ const App = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
+
                 <Text style={styles.headerTitle}>MedicineReminder</Text>
+
                 <TouchableOpacity
+                
                     style={[styles.addButton, { backgroundColor: 'white' }]}
                     onPress={() => setShowMedicineForm(true)}>
 
@@ -24,8 +30,12 @@ const App = () => {
                         size={32}
                         color="#4CAF50"
                     />
+                    
                 </TouchableOpacity>
+                
             </View>
+       
+
 
             <MedicineList
                 medicines={medicines}
@@ -33,6 +43,8 @@ const App = () => {
                 setShowMedicineForm={setShowMedicineForm}
                 setCurrentMedicineId={setCurrentMedicineId}
             />
+
+
 
             {showMedicineForm && (<MedicineForm 
                                     setShowMedicineForm={setShowMedicineForm}
