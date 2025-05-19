@@ -128,7 +128,7 @@ const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine
                     </TouchableOpacity>
                 </View>
 
-                {/* Show edited medicine: list of hours */}
+                
                 {
                     (updatedMedicine.schedule !== undefined && updatingMedicine === true) ? updatedMedicine.schedule.map(((item, index) =>
                         <Text key={index} style={styles.savedTime}>

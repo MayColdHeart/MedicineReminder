@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { StyleSheet } from "react-native";
+import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import React from "react";
 import Medicine from "@/interfaces/Medicine";
 import { medicines } from "@/fake_data/medicines";
@@ -17,62 +16,89 @@ type MedicineItemProps = {
 const MedicineItem = ({medicine, setUpdatingMedicine, setShowMedicineForm, setCurrentMedicineId} : MedicineItemProps) => {
     const [isDeleted, setIsDeleted] = useState(false);
 
+    const pendingHours = medicine.schedule?.filter(h => !h.isTaken) || [];
+
     return !isDeleted && (
-        <View style={styles.itemRemedio}>
-            <Text style={styles.textoRemedio}>{medicine.medicineName}</Text>
+        <View style={styles.itemContainer}>
+            <View style={styles.topRow}>
+                <Text style={styles.medicineText}>{medicine.medicineName}</Text>
 
-            <TouchableOpacity
-            style={styles.botaoEdit}
-            onPress={() => {
-                setShowMedicineForm(true); 
-                setUpdatingMedicine(true);
-                setCurrentMedicineId(medicine.id)
-            }}
-            >
-            <FontAwesome5 name="edit" size={24} color={colors.text} />
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonEdit}
+                    onPress={() => {
+                        setShowMedicineForm(true); 
+                        setUpdatingMedicine(true);
+                        setCurrentMedicineId(medicine.id)
+                    }}>
 
-            <TouchableOpacity
-            style={styles.botaoLixeira}
-            onPress={() => {
-                const index = medicines.findIndex(searchMedicine => searchMedicine.id === medicine.id);
-                medicines.splice(index, 1);
-                setIsDeleted(true);
-            }}
-            >
-            <FontAwesome5 name="trash-alt" size={24} color={colors.text} />
-            </TouchableOpacity>
+                    <FontAwesome5 name="edit" size={20} color={colors.text} />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.trashButton}
+                    onPress={() => {
+                        const index = medicines.findIndex(searchMedicine => searchMedicine.id === medicine.id);
+                        medicines.splice(index, 1);
+                        setIsDeleted(true);
+                    }}>
+
+                    <FontAwesome5 name="trash-alt" size={20} color={colors.text} />
+                </TouchableOpacity>
+            </View>
+
+            
+            {pendingHours.length > 0 ? (
+                <View style={styles.timeContainer}>
+                    <Text style={styles.horarioTitulo}>Horários Pendentes:</Text>
+                    {pendingHours.map((h, index) => (
+                        <Text key={index} style={styles.timeText}>
+                            {new Date(h.hour).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </Text>
+                    ))}
+                </View>
+            ) : (
+                <Text style={styles.timeText}>Todos os horários cumpridos.</Text>
+            )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    itemRemedio: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+    itemContainer: {
         padding: 15,
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
     },
-    textoRemedio: {
+    topRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    medicineText: {
         fontSize: 16,
         flex: 1,
-        flexBasis: 200,
     },
-    botaoEdit: {
-        flex: 1,
+    buttonEdit: {
         padding: 8,
-        left: 40,
+        marginLeft: 10,
     },
-    icon: {
-        fontSize: 18,
-    },
-    botaoLixeira: {
-        flex: 1,
+    trashButton: {
         padding: 8,
-        left: 30,
-    },    
+        marginLeft: 5,
+    },
+    timeContainer: {
+        marginTop: 10,
+        paddingLeft: 5,
+    },
+    horarioTitulo: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        marginBottom: 5,
+    },
+    timeText: {
+        fontSize: 14,
+        color: '#333',
+    },
 });
 
 export default MedicineItem;

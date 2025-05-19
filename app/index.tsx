@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { medicines } from '@/fake_data/medicines';
-import { Link } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
-import Time from '@/components/Time';
-import MedTimeManager from "@/components/MedTimeManager";
 
 
 const App = () => {
