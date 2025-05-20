@@ -25,7 +25,7 @@ const MedTimeManager = ({ medicines }: Props) => {
       };
     })
     //no have future dose?, clr
-    .filter((medicineEntry) => medicineEntry.nextDose !== null)
+    //.filter((medicineEntry) => medicineEntry.nextDose !== null)
   
    
     // ordn by prox dose 
@@ -43,6 +43,10 @@ const MedTimeManager = ({ medicines }: Props) => {
       </Text>
     </View>
   );
+
+
+
+  
 
   return (
     <FlatList

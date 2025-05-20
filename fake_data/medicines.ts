@@ -3,11 +3,10 @@ import Medicine from "@/interfaces/Medicine";
 const dateNow = new Date();
 
 const dateAfter = new Date(dateNow);
-dateAfter.setHours(dateAfter.getHours() + 8);
-dateAfter.setMinutes(dateAfter.getMinutes() + 1);
+dateAfter.setHours(dateAfter.getHours() + 12);
 
 const dateMoreAfter = new Date(dateAfter);
-dateMoreAfter.setHours(dateMoreAfter.getHours() + 12);
+dateMoreAfter.setHours(dateMoreAfter.getHours() + 8);
 
 const dateMuchMoreAfter = new Date(dateMoreAfter);
 dateMuchMoreAfter.setHours(dateMuchMoreAfter.getHours() + 24);
@@ -17,8 +16,8 @@ export const medicines: Medicine[] = [
         id: 1,
         medicineName: "Dipirona",
         schedule: [
-            { hour: dateNow, isTaken: true },
-            { hour: dateAfter, isTaken: false },
+            { hour: dateNow, isTaken: false },
+            { hour: dateAfter, isTaken: true },
         ],
         dosage: 7,
         dosageUnit: "ml"
