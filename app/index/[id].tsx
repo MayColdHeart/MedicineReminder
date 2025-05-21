@@ -22,7 +22,7 @@ const App = () => {
             <View style={styles.header}>
 
                 
-    <Link href={`/UserProfile?id=${loggedUserId}`} asChild>
+    <Link href={`/profile/${loggedUserId}`} asChild>
         <TouchableOpacity style={styles.iconButton}>
             <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
         </TouchableOpacity>

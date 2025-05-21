@@ -2,7 +2,6 @@ import { Stack } from "expo-router";
 import React from "react";
 
 export const unstable_settings = {
-  // Ensure any route can link back to `/`
   initialRouteName: 'login',
 };
 
@@ -22,6 +21,12 @@ export default function RootLayout() {
     />
     <Stack.Screen 
       name="index-admin"
+      options={{
+        headerShown: false
+      }}
+    />
+    <Stack.Screen 
+      name="profile/[id]"
       options={{
         headerShown: false
       }}

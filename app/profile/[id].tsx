@@ -1,22 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, SafeAreaView } from 'react-native';
 import { users } from '@/fake_data/users';
 import { medicines } from '@/fake_data/medicines';
 import { Ionicons } from '@expo/vector-icons';
-
-
-
-
-const user = users[0];
+import { useLocalSearchParams } from 'expo-router';
+import User from '@/interfaces/User';
 
 const ProfileText = ({ children }: { children: React.ReactNode }) => {
     return <Text style={styles.profileText}>{children}</Text>;
 };
 
-const ProfileInfo = () => {
+const ProfileInfo = ({user}: {user: User}) => {
     return (
         <View style={styles.profileInfoContainer}>
-            <View style={styles.profilePhoto} />
+            <Image source={ {uri: user.photo} } style={styles.profilePhoto}/>     
             <Text style={styles.userName}>
                 {user.firstName} {user.lastName}
             </Text>
@@ -35,16 +32,21 @@ const MedicineCard = ({ name }: { name: string }) => (
 );
 
 const Profile = () => {
+    const { id } = useLocalSearchParams();
+    const loggedUserId = Number(id);
+    const user = users.filter(user => user.id === loggedUserId)[0];
     const userMedicines = medicines.filter(route => route.userId === user.id);
 
     return (
+        <SafeAreaView>
         <FlatList
-            ListHeaderComponent={<ProfileInfo />}
+            ListHeaderComponent={<ProfileInfo user={user}/>}
             data={userMedicines}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => <MedicineCard name={item.medicineName} />}
             contentContainerStyle={styles.routeList}
         />
+        </SafeAreaView>
     );
 };
 
