@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { medicines } from '@/fake_data/medicines';
 import { Link, useLocalSearchParams } from 'expo-router';
@@ -7,6 +7,7 @@ import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
 import Time from '@/components/Time';
 import MedTimeManager from "@/components/MedTimeManager";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const App = () => {
@@ -21,8 +22,14 @@ const App = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
 
-                <Text style={styles.headerTitle}>MedicineReminder</Text>
+                
+    <Link href={`/profile/${loggedUserId}`} asChild>
+        <TouchableOpacity style={styles.iconButton}>
+            <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+        </TouchableOpacity>
+    </Link>
 
+    <Text style={styles.headerTitle}>MedicineReminder</Text>
                 <TouchableOpacity
                 
                     style={[styles.addButton, { backgroundColor: 'white' }]}
@@ -92,6 +99,14 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
     } as TextStyle,
+    iconButton: {
+    backgroundColor: 'white',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+} as ViewStyle,
 });
 
 export default App;
