@@ -86,9 +86,9 @@ const UserMiniContainer = ({user}: UserMiniContainerProps) => {
                         </View>
                     </View>
 
-                    <UserTextInfo style={{ paddingBottom: 5 }}>Próxima medicação:</UserTextInfo> 
                     {nextScheduledMedicine ?
-                    <View style={styles.userRowBoxInfoDetails} >                      
+                    <View style={styles.userRowBoxInfoDetails} >
+                        <UserTextInfo style={{ paddingBottom: 5 }}>Próxima medicação:</UserTextInfo>                    
                         <View style={styles.userIconInfoContainer}>
                             <Fontisto name="drug-pack" size={20} color={colors.accent}/>
                             <UserTextInfo> {nextScheduledMedicine.medicineName}</UserTextInfo>
