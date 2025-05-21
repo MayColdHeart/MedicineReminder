@@ -8,6 +8,7 @@ import MedicineForm from '@/components/MedicineForm';
 import Time from '@/components/Time';
 import MedTimeManager from "@/components/MedTimeManager";
 
+const loggedUserId: number = 1;
 
 const App = () => {
     const [showMedicineForm, setShowMedicineForm] = useState(false);
@@ -46,7 +47,8 @@ const App = () => {
 
 
 
-            {showMedicineForm && (<MedicineForm 
+            {showMedicineForm && (<MedicineForm
+                                    loggedUserId={loggedUserId} 
                                     setShowMedicineForm={setShowMedicineForm}
                                     setUpdatingMedicine={setUpdatingMedicine}
                                     updatingMedicine={updatingMedicine}
