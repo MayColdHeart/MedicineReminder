@@ -4,15 +4,15 @@ import { medicines } from '@/fake_data/medicines';
 import Medicine from '@/interfaces/Medicine';
 import ColonIcon from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/build/Ionicons';
-
 type MedicineFormProps = {
+    loggedUserId: number,
     setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
     currentMedicineId: number | null
     updatingMedicine: boolean,
     setUpdatingMedicine: (isUpdating: React.SetStateAction<boolean>) => void,
 }
 
-const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine, setUpdatingMedicine }: MedicineFormProps) => {
+const MedicineForm = ({ loggedUserId, setShowMedicineForm, currentMedicineId, updatingMedicine, setUpdatingMedicine }: MedicineFormProps) => {
     // To add new id, you need to take the greater id from a list, this assure that even when deleting values in the middle, you can use an AUTOINCREMENT id.
     let medicineLastId = 0;
     if (medicines.length !== 0) medicineLastId = medicines[medicines.length - 1].id;
@@ -21,6 +21,7 @@ const MedicineForm = ({ setShowMedicineForm, currentMedicineId, updatingMedicine
     const [newMedicine, setNewMedicine] = useState<Medicine>(
         {
             id: (medicineLastId + 1),
+            userId: loggedUserId,
             medicineName: "",
             schedule: [],
             dosage: null,
