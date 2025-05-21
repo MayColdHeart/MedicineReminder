@@ -8,12 +8,12 @@ import MedicineForm from '@/components/MedicineForm';
 import Time from '@/components/Time';
 import MedTimeManager from "@/components/MedTimeManager";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import TimeButton from "@/components/TimeButton";
 
 
 const App = () => {
     const { id } = useLocalSearchParams();
     const loggedUserId: number = Number(id);
-
     const [showMedicineForm, setShowMedicineForm] = useState(false);
     const [updatingMedicine, setUpdatingMedicine] = useState(false);
     const [currentMedicineId, setCurrentMedicineId] = useState<number>(0); // used to edit in medicine form
@@ -26,6 +26,7 @@ const App = () => {
     <Link href={`/profile/${loggedUserId}`} asChild>
         <TouchableOpacity style={styles.iconButton}>
             <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+
         </TouchableOpacity>
     </Link>
 
@@ -40,11 +41,10 @@ const App = () => {
                         size={32}
                         color="#4CAF50"
                     />
-                    
+                   
                 </TouchableOpacity>
                 
             </View>
-       
 
 
             <MedicineList

@@ -16,8 +16,7 @@ const TimeButton = () => {
   return(
         <Switch
           trackColor={{false: 'gray', true: 'green'}}
-          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
+          thumbColor={isEnabled ? '#4CAF50' : '#f4f3f4'}
           onValueChange={toggleSwitch}
           value={isEnabled}
         />

@@ -6,6 +6,8 @@ import Medicine from "@/interfaces/Medicine";
 import { medicines } from "@/fake_data/medicines";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from "@/constants/colors";
+import TimeButton from "./TimeButton";
+
 
 type MedicineItemProps = {
     medicine: Medicine,
@@ -19,8 +21,9 @@ const MedicineItem = ({medicine, setUpdatingMedicine, setShowMedicineForm, setCu
 
     return !isDeleted && (
         <View style={styles.itemRemedio}>
+            <TimeButton></TimeButton>
             <Text style={styles.textoRemedio}>{medicine.medicineName}</Text>
-
+        
             <TouchableOpacity
             style={styles.botaoEdit}
             onPress={() => {
@@ -40,6 +43,7 @@ const MedicineItem = ({medicine, setUpdatingMedicine, setShowMedicineForm, setCu
                 setIsDeleted(true);
             }}
             >
+                x
             <FontAwesome5 name="trash-alt" size={24} color={colors.text} />
             </TouchableOpacity>
         </View>
