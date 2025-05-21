@@ -21,8 +21,14 @@ const App = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
 
-                <Text style={styles.headerTitle}>MedicineReminder</Text>
+                
+    <Link href={`/UserProfile?id=${loggedUserId}`} asChild>
+        <TouchableOpacity style={styles.iconButton}>
+            <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+        </TouchableOpacity>
+    </Link>
 
+    <Text style={styles.headerTitle}>MedicineReminder</Text>
                 <TouchableOpacity
                 
                     style={[styles.addButton, { backgroundColor: 'white' }]}
@@ -92,6 +98,14 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
     } as TextStyle,
+    iconButton: {
+    backgroundColor: 'white',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+} as ViewStyle,
 });
 
 export default App;
