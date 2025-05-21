@@ -38,7 +38,6 @@ const UserMiniContainer = ({user}: UserMiniContainerProps) => {
             const TIME_PRECISION = 30 * 1000; // 30 seconds
             if(!hour.isTaken){
                 let timeDiference = hour.hour.getTime() - now.getTime();
-                if(user.firstName === "Carla") console.log(timeDiference);
                 if(shortestTimeDifference === null && timeDiference >= -TIME_PRECISION) {
                     shortestTimeDifference = timeDiference;
                     nextScheduledMedicine = medicine;
