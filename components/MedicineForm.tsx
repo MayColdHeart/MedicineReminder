@@ -4,6 +4,8 @@ import { medicines } from '@/fake_data/medicines';
 import Medicine from '@/interfaces/Medicine';
 import ColonIcon from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/build/Ionicons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { colors } from '@/constants/colors';
 type MedicineFormProps = {
     loggedUserId: number,
     setShowMedicineForm: (showState: React.SetStateAction<boolean>) => void,
@@ -132,24 +134,44 @@ const MedicineForm = ({ loggedUserId, setShowMedicineForm, currentMedicineId, up
                 {/* Show edited medicine: list of hours */}
                 {
                     (updatedMedicine.schedule !== undefined && updatingMedicine === true) ? updatedMedicine.schedule.map(((item, index) =>
-                        <Text key={index} style={styles.savedTime}>
+                        <View key={index} style={styles.savedTimeContainer}>
+                        <Text style={styles.savedTime}>
                             {item.hour.getHours().toString().padStart(2, "0")}
                             :
                             {item.hour.getMinutes().toString().padStart(2, "0")}
                             {" hrs"}
                         </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                updatedMedicine.schedule.splice(index, 1);
+                                setUpdatedMedicine({ ...updatedMedicine });
+                            }}
+                        >
+                            <FontAwesome5 name="trash-alt" size={24} color={colors.text} />
+                        </TouchableOpacity>
+                        </View>
                     )) : <></>
                 }
 
                 {/* Show new medicine: list of hours */}
                 {
                     (newMedicine.schedule !== undefined && updatingMedicine === false) ? newMedicine.schedule.map(((item, index) =>
-                        <Text key={index} style={styles.savedTime}>
+                        <View key={index} style={styles.savedTimeContainer}>
+                        <Text style={styles.savedTime}>
                             {item.hour.getHours().toString().padStart(2, "0")}
                             :
                             {item.hour.getMinutes().toString().padStart(2, "0")}
                             {" hrs"}
                         </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                newMedicine.schedule.splice(index, 1);
+                                setUpdatedMedicine({ ...newMedicine });
+                            }}
+                        >
+                            <FontAwesome5 name="trash-alt" size={24} color={colors.text} />
+                        </TouchableOpacity>
+                        </View>
                     )) : <></>
                 }
 
@@ -273,7 +295,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
-    savedTime: {
+    savedTimeContainer: {
         borderWidth: 1,
         borderColor: '#ddd',
         padding: 12,
@@ -281,8 +303,15 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         fontSize: 30,
         fontWeight: "bold",
-        textAlign: "center",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
     },
+    savedTime: {
+        fontSize: 30,
+        fontWeight: "bold",
+        textAlign: "center",
+    },    
     formButton: {
         padding: 12,
         borderRadius: 8,
