@@ -8,7 +8,7 @@ import MedicineForm from '@/components/MedicineForm';
 import Time from '@/components/Time';
 import MedTimeManager from "@/components/MedTimeManager";
 
-const loggedUserId: number = 1;
+const loggedUserId: number = 6;
 
 const App = () => {
     const [showMedicineForm, setShowMedicineForm] = useState(false);
@@ -39,7 +39,7 @@ const App = () => {
 
 
             <MedicineList
-                medicines={medicines}
+                medicines={medicines.filter(medicine => medicine.userId === loggedUserId)}
                 setUpdatingMedicine={setUpdatingMedicine}
                 setShowMedicineForm={setShowMedicineForm}
                 setCurrentMedicineId={setCurrentMedicineId}
