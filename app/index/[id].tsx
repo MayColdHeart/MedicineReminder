@@ -5,10 +5,8 @@ import { medicines } from '@/fake_data/medicines';
 import { Link, useLocalSearchParams } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
-import Time from '@/components/Time';
-import MedTimeManager from "@/components/MedTimeManager";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import TimeButton from "@/components/TimeButton";
+
 
 
 const App = () => {

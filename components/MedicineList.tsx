@@ -13,17 +13,17 @@ type MedicineListProps = {
     setCurrentMedicineId: (medicineId: React.SetStateAction<number>) => void
 }
 
-const MedicineList = ({ medicines, setUpdatingMedicine, setShowMedicineForm, setCurrentMedicineId}: MedicineListProps) => {
+const MedicineList = ({ medicines, setUpdatingMedicine, setShowMedicineForm, setCurrentMedicineId }: MedicineListProps) => {
     return (
         <FlatList style={styles.content}
-        
-            data= {medicines}
-            renderItem={({item}) => <MedicineItem 
-                                        medicine={item}
-                                        setUpdatingMedicine={setUpdatingMedicine}
-                                        setShowMedicineForm={setShowMedicineForm}
-                                        setCurrentMedicineId={setCurrentMedicineId}
-                                    />}
+
+            data={medicines}
+            renderItem={({ item }) => <MedicineItem
+                medicine={item}
+                setUpdatingMedicine={setUpdatingMedicine}
+                setShowMedicineForm={setShowMedicineForm}
+                setCurrentMedicineId={setCurrentMedicineId}
+            />}
             keyExtractor={(item) => item.id.toString()}
         />
     );
