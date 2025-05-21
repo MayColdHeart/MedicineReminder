@@ -38,7 +38,7 @@ const UserMiniContainer = ({user}: UserMiniContainerProps) => {
             const TIME_PRECISION = 30 * 1000; // 30 seconds
             if(!hour.isTaken){
                 let timeDiference = hour.hour.getTime() - now.getTime();
-                if(user.firsName === "Carla") console.log(timeDiference);
+                if(user.firstName === "Carla") console.log(timeDiference);
                 if(shortestTimeDifference === null && timeDiference >= -TIME_PRECISION) {
                     shortestTimeDifference = timeDiference;
                     nextScheduledMedicine = medicine;
@@ -73,7 +73,7 @@ const UserMiniContainer = ({user}: UserMiniContainerProps) => {
 
             <View style={styles.completeInfoContainer}>
                 <View style={ styles.userRowInfoContainer }>
-                    <Text style={styles.userTitle}>{user.firsName} {user.lastName}</Text>
+                    <Text style={styles.userTitle}>{user.firstName} {user.lastName}</Text>
 
                     <View style={styles.userColumnInfoContainer}>
                         <View style={styles.userColumnBoxInfoDetails}>

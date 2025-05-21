@@ -1,3 +1,4 @@
+import { colors } from '@/constants/colors'
 import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   botao: {
     width: '100%',
     height: 45,
-    backgroundColor: '#00f',
+    backgroundColor: colors.accent,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
