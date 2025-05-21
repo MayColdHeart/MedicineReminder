@@ -13,7 +13,7 @@ const AdminSummaryBox = () => (
 
         <View style={styles.card}>
             <MaterialIcons name="medical-services" size={24} color={colors.primary} />
-            <Text style={styles.label}>Remédio</Text>
+            <Text style={styles.label}>Medicações</Text>
             <Text style={styles.value}>7</Text>
         </View>
 
@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
    },
    card:{
     width:'47%',
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: colors.text,
     shadowOpacity: 0.1,
     shadowRadius: 4
    },

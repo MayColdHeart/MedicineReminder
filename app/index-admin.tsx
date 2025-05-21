@@ -11,7 +11,6 @@ const IndexAdmin = () => {
             <View>
                 <Text style={styles.adminHeaderTitle}>Painel Administrador</Text>
             </View>
-            <AdminSummaryBox />
             <UserList />
         </SafeAreaView>
     );
