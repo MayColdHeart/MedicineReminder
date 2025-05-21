@@ -15,7 +15,7 @@ export default function RootLayout() {
       }}
     />
     <Stack.Screen 
-      name="index"
+      name="index/[id]"
       options={{
         headerShown: false
       }}

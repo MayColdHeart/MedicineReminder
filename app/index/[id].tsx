@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { medicines } from '@/fake_data/medicines';
-import { Link } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
 import Time from '@/components/Time';
 import MedTimeManager from "@/components/MedTimeManager";
 
-const loggedUserId: number = 6;
 
 const App = () => {
+    const { id } = useLocalSearchParams();
+    const loggedUserId: number = Number(id);
+
     const [showMedicineForm, setShowMedicineForm] = useState(false);
     const [updatingMedicine, setUpdatingMedicine] = useState(false);
     const [currentMedicineId, setCurrentMedicineId] = useState<number>(0); // used to edit in medicine form

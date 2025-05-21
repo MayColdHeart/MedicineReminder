@@ -1,4 +1,6 @@
 import { colors } from '@/constants/colors'
+import { users } from '@/fake_data/users'
+import { router } from 'expo-router'
 import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 
@@ -7,10 +9,16 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('')
 
   const handleLogin = () => {
-    if (username === 'Gabriel' && password === '123456') {
-      alert('Sucesso')
+    const loggedUser = users.find(user => user.username === username);
+
+    if (username === "admin" && password === "admin") {
+      router.push("/index-admin")
+    }
+    else if (loggedUser && password !== '') {
+      // alert('Sucesso');
+      router.navigate(`/${loggedUser.id}`);
     } else {
-      alert('Erro')
+      alert('Erro');
     }
   }
 
@@ -18,9 +26,9 @@ export default function LoginScreen() {
       <View style={styles.tela}>
         <Text style={styles.titulo}>Bem-vindo!</Text>
 
-        <TextInput style={styles.entrada} placeholder="Username" value={username} onChangeText={setUsername}/>
+        <TextInput style={styles.entrada} placeholder="Username" value={username} onChangeText={setUsername} autoCapitalize='none'/>
 
-        <TextInput style={styles.entrada} placeholder="Senha" secureTextEntry value={password} onChangeText={setPassword}/>
+        <TextInput style={styles.entrada} placeholder="Senha" secureTextEntry value={password} onChangeText={setPassword} autoCapitalize='none'/>
 
         <TouchableOpacity style={styles.botao} onPress={handleLogin} activeOpacity={0.5}>
           <Text style={styles.textobotao}>Entrar</Text>
