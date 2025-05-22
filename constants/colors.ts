@@ -3,7 +3,8 @@ const colors = {
     background: '#f3faf7',
     primary: "#32ce8d",
     accent: "#4CAF50",
-    secondary: "#8df1c7"
+    secondary: "#8df1c7",
+    white: "#ffffff"
 }
 
 export {
