@@ -38,7 +38,6 @@ const UserMiniContainer = ({user}: UserMiniContainerProps) => {
             const TIME_PRECISION = 30 * 1000; // 30 seconds
             if(!hour.isTaken){
                 let timeDiference = hour.hour.getTime() - now.getTime();
-                if(user.firstName === "Carla") console.log(timeDiference);
                 if(shortestTimeDifference === null && timeDiference >= -TIME_PRECISION) {
                     shortestTimeDifference = timeDiference;
                     nextScheduledMedicine = medicine;
@@ -64,7 +63,7 @@ const UserMiniContainer = ({user}: UserMiniContainerProps) => {
     }
 
     return (
-        <Link href={"/"} asChild>
+        <Link href={`/profile/${user.id}`} asChild>
         <TouchableOpacity style={styles.userBoxContainer}>
             
             <View style={styles.userImageContainer}>
@@ -86,16 +85,18 @@ const UserMiniContainer = ({user}: UserMiniContainerProps) => {
                         </View>
                     </View>
 
-                    <UserTextInfo style={{ paddingBottom: 5 }}>Próxima medicação:</UserTextInfo> 
                     {nextScheduledMedicine ?
-                    <View style={styles.userRowBoxInfoDetails} >                      
-                        <View style={styles.userIconInfoContainer}>
-                            <Fontisto name="drug-pack" size={20} color={colors.accent}/>
-                            <UserTextInfo> {nextScheduledMedicine.medicineName}</UserTextInfo>
-                        </View>
-                        <View style={styles.userIconInfoContainer}>
-                            <Fontisto name="clock" size={20} color={colors.accent}/>
-                            <UserTextInfo> {hoursUntilNextMedicine}h {minutesUntilNextMedicine}m</UserTextInfo>
+                    <View>
+                        <UserTextInfo style={{ paddingBottom: 5 }}>Próxima medicação:</UserTextInfo>                    
+                        <View style={styles.userRowBoxInfoDetails}>
+                            <View style={styles.userIconInfoContainer}>
+                                <Fontisto name="drug-pack" size={20} color={colors.primary}/>
+                                <UserTextInfo> {nextScheduledMedicine.medicineName}</UserTextInfo>
+                            </View>
+                            <View style={styles.userIconInfoContainer}>
+                                <Fontisto name="clock" size={20} color={colors.primary}/>
+                                <UserTextInfo> {hoursUntilNextMedicine}h {minutesUntilNextMedicine}m</UserTextInfo>
+                            </View>
                         </View>
                     </View> : 
                     <></>
@@ -112,9 +113,11 @@ const styles = StyleSheet.create({
         width: "90%",
         alignSelf: "center",
         flexDirection: "row",
-        borderColor: colors.secondary,
-        borderWidth: 1,
-        borderRadius: 25
+        borderRadius: 25,
+        backgroundColor: colors.white,
+        elevation: 2,
+        shadowColor: colors.text,
+        boxShadow: "10"
     },
     textHighlight : {
         fontWeight: "bold",
@@ -132,7 +135,6 @@ const styles = StyleSheet.create({
     },
     completeInfoContainer: {
         flexDirection: "row",
-        backgroundColor: colors.background,
         width: "70%",
         alignItems: "center",
         borderTopRightRadius: 25,
@@ -145,7 +147,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     userColumnInfoContainer: {
-        backgroundColor: colors.background,
         alignItems: "center",
         paddingTop: 10,
         paddingBottom: 10,

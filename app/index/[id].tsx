@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ViewStyle, TextStyle, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { medicines } from '@/fake_data/medicines';
 import { Link, useLocalSearchParams } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
-import Time from '@/components/Time';
-import MedTimeManager from "@/components/MedTimeManager";
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 
 const App = () => {
     const { id } = useLocalSearchParams();
     const loggedUserId: number = Number(id);
-
     const [showMedicineForm, setShowMedicineForm] = useState(false);
     const [updatingMedicine, setUpdatingMedicine] = useState(false);
     const [currentMedicineId, setCurrentMedicineId] = useState<number>(0); // used to edit in medicine form
@@ -20,21 +19,31 @@ const App = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Link href={`/profile/${loggedUserId}`} asChild>
-                    <TouchableOpacity style={styles.iconButton}>
-                        <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
-                    </TouchableOpacity>
-                </Link>
-                <Text style={styles.headerTitle}>MedicineReminder</Text>
-                <TouchableOpacity style={[styles.addButton, { backgroundColor: 'white' }]}
-                onPress={() => setShowMedicineForm(true)}>
+
+                
+    <Link href={`/profile/${loggedUserId}`} asChild>
+        <TouchableOpacity style={styles.iconButton}>
+            <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+        </TouchableOpacity>
+    </Link>
+
+    <Text style={styles.headerTitle}>MedicineReminder</Text>
+                <TouchableOpacity
+                
+                    style={[styles.addButton, { backgroundColor: 'white' }]}
+                    onPress={() => setShowMedicineForm(true)}>
+
                     <Ionicons
                     name="add-circle-outline"
                     size={32}
                     color="#4CAF50"
                     />
+                    
                 </TouchableOpacity>
             </View>
+       
+
+
             <MedicineList
                 medicines={medicines.filter(medicine => medicine.userId === loggedUserId)}
                 setUpdatingMedicine={setUpdatingMedicine}

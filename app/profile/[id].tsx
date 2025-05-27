@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import { users } from '@/fake_data/users';
 import { medicines } from '@/fake_data/medicines';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
 import User from '@/interfaces/User';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ProfileText = ({ children }: { children: React.ReactNode }) => {
     return <Text style={styles.profileText}>{children}</Text>;
@@ -19,7 +20,7 @@ const ProfileInfo = ({user}: {user: User}) => {
             </Text>
             <ProfileText><Ionicons name="mail-outline" size={18} />  {user.email}</ProfileText>
             <ProfileText><Ionicons name="call-outline" size={18} />  {user.phone}</ProfileText>
-            <Text style={styles.myRoutesHeader}>Meus medicamentos</Text>
+            <Text style={styles.myRoutesHeader}>Medicamentos</Text>
         </View>
     );
 };

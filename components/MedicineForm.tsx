@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { medicines } from '@/fake_data/medicines';
 import Medicine from '@/interfaces/Medicine';
-import ColonIcon from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/build/Ionicons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '@/constants/colors';
