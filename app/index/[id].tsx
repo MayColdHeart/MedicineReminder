@@ -20,48 +20,34 @@ const App = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-
-                
-    <Link href={`/profile/${loggedUserId}`} asChild>
-        <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
-        </TouchableOpacity>
-    </Link>
-
-    <Text style={styles.headerTitle}>MedicineReminder</Text>
-                <TouchableOpacity
-                
-                    style={[styles.addButton, { backgroundColor: 'white' }]}
-                    onPress={() => setShowMedicineForm(true)}>
-
+                <Link href={`/profile/${loggedUserId}`} asChild>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+                    </TouchableOpacity>
+                </Link>
+                <Text style={styles.headerTitle}>MedicineReminder</Text>
+                <TouchableOpacity style={[styles.addButton, { backgroundColor: 'white' }]}
+                onPress={() => setShowMedicineForm(true)}>
                     <Ionicons
-                        name="add-circle-outline"
-                        size={32}
-                        color="#4CAF50"
+                    name="add-circle-outline"
+                    size={32}
+                    color="#4CAF50"
                     />
-                    
                 </TouchableOpacity>
-                
             </View>
-       
-
-
             <MedicineList
                 medicines={medicines.filter(medicine => medicine.userId === loggedUserId)}
                 setUpdatingMedicine={setUpdatingMedicine}
                 setShowMedicineForm={setShowMedicineForm}
                 setCurrentMedicineId={setCurrentMedicineId}
             />
-
-
-
             {showMedicineForm && (<MedicineForm
                                     loggedUserId={loggedUserId} 
                                     setShowMedicineForm={setShowMedicineForm}
                                     setUpdatingMedicine={setUpdatingMedicine}
                                     updatingMedicine={updatingMedicine}
                                     currentMedicineId={currentMedicineId}
-                                />)}
+                                    />)}
         </SafeAreaView>
     );
 };
@@ -73,7 +59,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     header: {
-        height: 80,
+        height: 95,
         backgroundColor: '#4CAF50',
         flexDirection: 'row',
         justifyContent: 'space-between',

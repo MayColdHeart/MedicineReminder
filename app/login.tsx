@@ -3,6 +3,7 @@ import { users } from '@/fake_data/users'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import * as Animatable from 'react-native-animatable'
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('')
@@ -24,10 +25,12 @@ export default function LoginScreen() {
 
   return (
       <View style={styles.tela}>
-        <Text style={styles.titulo}>Bem-vindo!</Text>
 
+        <Animatable.View animation='flipInY' delay={500}>
+          <Text style={styles.titulo}>Bem-vindo!</Text>
+        </Animatable.View>
+        
         <TextInput style={styles.entrada} placeholder="Username" value={username} onChangeText={setUsername} autoCapitalize='none'/>
-
         <TextInput style={styles.entrada} placeholder="Senha" secureTextEntry value={password} onChangeText={setPassword} autoCapitalize='none'/>
 
         <TouchableOpacity style={styles.botao} onPress={handleLogin} activeOpacity={0.5}>
