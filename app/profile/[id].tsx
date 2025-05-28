@@ -24,7 +24,7 @@ const ProfileInfo = ({user}: {user: User}) => {
 
             <View style={styles.BottominfCont} >
             <Text style={styles.myRoutesHeader}>Medicamentos</Text>
-            <TouchableOpacity style={styles.historyButton} onPress={() => Alert.alert('23:52 amoxicilina - Pendente.')}>
+            <TouchableOpacity style={styles.historyButton} onPress={() => Alert.alert('Histórico de Medicamento','23:50 amoxicilina     Pendente\n13:00  Dipirona         Pendente\n ')}>
             <Ionicons name="time-outline" size={18} color="#2e7d32" />
             <Text style={styles.historyButtonText}>Histórico</Text>
             </TouchableOpacity>
