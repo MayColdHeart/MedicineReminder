@@ -21,5 +21,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRootEndpoints();
+app.MapAccountEndpoints();
+app.MapMedicineEndpoints();
 
 app.Run();
