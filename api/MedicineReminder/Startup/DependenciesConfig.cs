@@ -26,8 +26,8 @@ public static class DependenciesConfig
     {
         builder.Services.AddIdentityCore<User>()
             .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<AppDbContext>();
-            //.AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
         
         builder.Services.Configure<IdentityOptions>(options =>
         {
