@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace MedicineReminder.Endpoints;
 
 public static class AccountEndpoints
@@ -6,6 +8,11 @@ public static class AccountEndpoints
     {
         var endpoints = app.MapGroup("/accounts");
         
-        endpoints.MapGet("/", () => "Hello, this is account root endpoint");
+        endpoints.MapGet("/", GetUsersList);
+    }
+
+    private static IResult GetUsersList([FromQuery] int lastId)
+    {
+        return TypedResults.Ok();
     }
 }
