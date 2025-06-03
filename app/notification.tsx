@@ -13,7 +13,18 @@ const Notification = () => {
             </View>
             
 
-
+            <FlatList
+                data={users}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                    <View style={styles.alertCard}>
+                        <Ionicons name="warning-outline" size={40} color={colors.warning} />
+                        <Text style={styles.alertText}>
+                            {item.firstName} {item.lastName} precisa administrar a medicação.
+                        </Text>
+                    </View>
+                )}
+            />
         </SafeAreaView>
     );
 };
@@ -31,9 +42,9 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
     },
     title: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        marginBottom: 20,
+        fontWeight: "bold",
+        fontSize: 25,
+        marginBottom: 30,
     },
     alertCard: {
         flexDirection: 'row',
@@ -42,6 +53,8 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 10,
         marginBottom: 10,
+        marginLeft: 12,
+        marginRight: 12,
         borderWidth: 1,
         borderColor: '#ffcdd2',
     },
