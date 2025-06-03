@@ -15,7 +15,7 @@ const Notification = () => {
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
                     <Ionicons name="arrow-back" size={24} color={colors.primary} />
                 </TouchableOpacity>
-                <Text style={styles.title}>Notificações de Medicação</Text>
+                <Text style={styles.title}>Notificações</Text>
             </View>
             
 
@@ -46,9 +46,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingVertical: 15,
+        marginBottom: 20,
     },
     backButton: {
-        marginRight: 10,
         borderWidth: 2,
         borderColor: colors.primary,
         borderRadius: 50,
@@ -56,9 +56,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f9f9',
     },
     title: {
+
+        textAlign: "center",
         fontWeight: "bold",
+        marginRight: 120,
         fontSize: 25,
-        marginBottom: 30,
     },
     alertCard: {
         flexDirection: 'row',
