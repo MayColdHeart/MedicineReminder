@@ -1,33 +1,45 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors } from '@/constants/colors';
 import UserList from '@/components/UserList';
-import AdminSummaryBox from '@/components/AdminSummaryBox';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const IndexAdmin = () => {
+    const router = useRouter();
+
     return (
         <SafeAreaView style={styles.container}>
-            <View>
+            <View style={styles.header}>
                 <Text style={styles.adminHeaderTitle}>Painel Administrador</Text>
+                
+                <TouchableOpacity onPress={() => router.push('/notification')}>
+                    <Ionicons name="notifications-outline" size={28} color="#333" />
+                </TouchableOpacity>
             </View>
+
             <UserList />
         </SafeAreaView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
         flexBasis: "100%",
-        backgroundColor: colors.background
+        backgroundColor: colors.background,
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingVertical: 15,
     },
     adminHeaderTitle: {
-        textAlign: "center",
         fontWeight: "bold",
         fontSize: 25,
-        padding: 15
-    }
-    
+    },
 });
 
 export default IndexAdmin;
