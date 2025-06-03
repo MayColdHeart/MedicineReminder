@@ -1,14 +1,20 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { users } from '@/fake_data/users';
 import { colors } from '@/constants/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const Notification = () => {
+     const router = useRouter();
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
+                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                    <Ionicons name="arrow-back" size={24} color={colors.primary} />
+                </TouchableOpacity>
                 <Text style={styles.title}>Notificações de Medicação</Text>
             </View>
             
@@ -40,6 +46,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingVertical: 15,
+    },
+    backButton: {
+        marginRight: 10,
+        borderWidth: 2,
+        borderColor: colors.primary,
+        borderRadius: 50,
+        padding: 8,
+        backgroundColor: '#f9f9f9',
     },
     title: {
         fontWeight: "bold",
