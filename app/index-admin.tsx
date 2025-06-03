@@ -13,9 +13,9 @@ const IndexAdmin = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.adminHeaderTitle}>Painel Administrador</Text>
-                
-                <TouchableOpacity onPress={() => router.push('/notification')}>
-                    <Ionicons name="notifications-outline" size={28} color="#333" />
+
+                <TouchableOpacity onPress={() => router.push('/notification')} style={styles.notificationButton}>
+                    <Ionicons name="notifications-outline" size={24} color={colors.primary} />
                 </TouchableOpacity>
             </View>
 
@@ -39,6 +39,13 @@ const styles = StyleSheet.create({
     adminHeaderTitle: {
         fontWeight: "bold",
         fontSize: 25,
+    },
+    notificationButton: {
+        borderWidth: 2,
+        borderColor: colors.primary,
+        borderRadius: 50,
+        padding: 8,
+        backgroundColor: '#f9f9f9',
     },
 });
 
