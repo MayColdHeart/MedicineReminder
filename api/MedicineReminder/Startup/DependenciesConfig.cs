@@ -1,6 +1,7 @@
 using System.Text;
 using MedicineReminder.Data;
 using MedicineReminder.Models;
+using MedicineReminder.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,11 @@ namespace MedicineReminder.Startup;
 
 public static class DependenciesConfig
 {
+    public static void AddScopedServices(this IServiceCollection services)
+    {
+        services.AddScoped<IMedicineServices, MedicineServices>();
+    }
+    
     public static void AddDatabase(this WebApplicationBuilder builder)
     {
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

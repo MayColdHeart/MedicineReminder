@@ -9,6 +9,8 @@ builder.AddCustomIdentityCore();
 builder.AddJwtAuthentication();
 builder.Services.AddCustomAuthorization();
 
+builder.Services.AddScopedServices();
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();

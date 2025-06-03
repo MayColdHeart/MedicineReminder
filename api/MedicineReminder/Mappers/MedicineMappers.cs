@@ -1,7 +1,7 @@
-using System.Collections.ObjectModel;
+using System.Linq.Expressions;
 using MedicineReminder.Dtos.MedicineDtos;
-using MedicineReminder.Dtos.ScheduleDtos;
 using MedicineReminder.Models;
+
 
 namespace MedicineReminder.Mappers;
 
@@ -31,11 +31,21 @@ public static class MedicineMappers
     {
         return new MedicineMainInfoResponse
         (
-           Name: medicineModel.Name,
-           Dosage: medicineModel.Dosage,
-           DosageUnit: medicineModel.DosageUnit.Name
+            Id: medicineModel.Id, 
+            Name: medicineModel.Name, 
+            Dosage: medicineModel.Dosage, 
+            DosageUnit: medicineModel.DosageUnit.Name
         );
     }
+
+    public static readonly Expression<Func<Medicine, MedicineMainInfoResponse>> ProjectToMedicineMainInfoResponse = (medicineModel) =>
+    new MedicineMainInfoResponse
+    (
+        medicineModel.Id,
+        medicineModel.Name,
+        medicineModel.Dosage,
+        medicineModel.DosageUnit.Name
+    );
 
     public static MedicineResponse ToMedicineResponse(this Medicine medicineModel)
     {
