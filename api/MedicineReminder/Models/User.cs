@@ -5,4 +5,6 @@ namespace MedicineReminder.Models;
 public class User : IdentityUser
 {
     public string Photo { get; set; } = string.Empty;
+
+    public ICollection<Medicine> Medicines { get; } = [];
 }
