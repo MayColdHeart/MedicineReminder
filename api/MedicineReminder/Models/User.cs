@@ -4,6 +4,8 @@ namespace MedicineReminder.Models;
 
 public class User : IdentityUser
 {
+    public override string UserName { get; set; }
+    public override string Email { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public string Photo { get; set; } = string.Empty;
 

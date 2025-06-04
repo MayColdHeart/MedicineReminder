@@ -14,6 +14,7 @@ public static class DependenciesConfig
     public static void AddScopedServices(this IServiceCollection services)
     {
         services.AddScoped<IMedicineService, MedicineService>();
+        services.AddScoped<IAccountService, AccountService>();
     }
     
     public static void AddDatabase(this WebApplicationBuilder builder)
