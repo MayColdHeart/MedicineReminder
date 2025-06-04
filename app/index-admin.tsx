@@ -5,6 +5,7 @@ import UserList from '@/components/UserList';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import * as Animatable from 'react-native-animatable'
 
 const IndexAdmin = () => {
     const router = useRouter();
@@ -12,7 +13,7 @@ const IndexAdmin = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.adminHeaderTitle}>Painel Administrador</Text>
+                <Animatable.Text animation='flipInX' delay={500} style={styles.adminHeaderTitle}>Painel Administrador</Animatable.Text>
 
                 <TouchableOpacity onPress={() => router.push('/notification')} style={styles.notificationButton}>
                     <Ionicons name="notifications-outline" size={24} color={colors.primary} />

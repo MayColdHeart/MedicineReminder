@@ -5,6 +5,7 @@ import { colors } from '@/constants/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import * as Animatable from "react-native-animatable"
 
 const Notification = () => {
      const router = useRouter();
@@ -15,7 +16,7 @@ const Notification = () => {
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
                     <Ionicons name="arrow-back" size={24} color={colors.primary} />
                 </TouchableOpacity>
-                <Text style={styles.title}>Notificações</Text>
+                <Animatable.Text animation='flipInX' delay={500} style={styles.title}>Notificações</Animatable.Text>
             </View>
             
 
@@ -23,12 +24,12 @@ const Notification = () => {
                 data={users}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.alertCard}>
+                    <Animatable.View animation='fadeInDown' delay={750} style={styles.alertCard}>
                         <Ionicons name="warning-outline" size={40} color={colors.warning} />
                         <Text style={styles.alertText}>
                             {item.firstName} {item.lastName} precisa administrar a medicação.
                         </Text>
-                    </View>
+                    </Animatable.View>
                 )}
             />
         </SafeAreaView>
@@ -59,18 +60,17 @@ const styles = StyleSheet.create({
 
         textAlign: "center",
         fontWeight: "bold",
-        marginRight: 120,
+        marginRight: 90,
         fontSize: 25,
     },
     alertCard: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#ffebee',
-        padding: 15,
+        padding: 25,
         borderRadius: 10,
         marginBottom: 10,
-        marginLeft: 12,
-        marginRight: 12,
+        marginHorizontal: 15,
         borderWidth: 1,
         borderColor: '#ffcdd2',
     },
