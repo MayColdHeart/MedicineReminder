@@ -1,5 +1,6 @@
 using MedicineReminder.Endpoints;
 using MedicineReminder.Startup;
+using MedicineReminder.Startup.OpenApiTransformers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,7 @@ builder.Services.AddCustomAuthorization();
 
 builder.Services.AddScopedServices();
 
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options => options.AddDocumentTransformer<BearerSecuritySchemeTransformer>());
 
 var app = builder.Build();
 
