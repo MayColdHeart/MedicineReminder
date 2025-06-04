@@ -14,6 +14,7 @@ public static class OpenApiConfig
                 options.Title = "Medicine Reminder API";
                 options.Theme = ScalarTheme.Saturn;
                 options.DarkMode = true;
+                options.DefaultHttpClient = KeyValuePair.Create(ScalarTarget.JavaScript, ScalarClient.Fetch);
             });
         }
     }

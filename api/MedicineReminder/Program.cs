@@ -15,6 +15,7 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+app.UseDatabase();
 app.UseOpenApi();
 
 app.UseHttpsRedirection();
