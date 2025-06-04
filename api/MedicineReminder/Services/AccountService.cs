@@ -10,12 +10,12 @@ namespace MedicineReminder.Services;
 
 public interface IAccountService
 {
-    Task<IList<UserMainInfoResponse>> GetUsersListAsync(string? lastId);
+    Task<IList<UserMainInfoResponse>> GetUsersListAsync(string? lastId = null);
     Task<string> RegisterAsync(UserRegisterRequest userRegisterRequest);
     Task<string> LoginAsync(UserLoginRequest userLoginRequest);
     Task<UserResponse?> GetUserAsync(string username);
     Task<bool> DeleteUserAsync(string username);
-    Task<UserResponse?> UpdateUserAsync(UpdateUserRequest updateUserRequest);
+    Task<UserResponse?> UpdateUserAsync(UserUpdateRequest userUpdateRequest);
 }
 
 // TODO: implement authentication
@@ -57,6 +57,7 @@ public class AccountService : IAccountService
     public async Task<string> RegisterAsync(UserRegisterRequest userRegisterRequest)
     {
         var newUser = userRegisterRequest.ToUserModel();
+        newUser.CreatedAt = DateTimeOffset.Now;
         
         var result = await _userManager.CreateAsync(newUser, userRegisterRequest.Password);
         if (!result.Succeeded)
@@ -100,16 +101,17 @@ public class AccountService : IAccountService
         var userModel = await _dbContext.User.FirstOrDefaultAsync(u => u.UserName == username);
         if(userModel is null) return false;
         
+        _dbContext.User.Remove(userModel);
         await _dbContext.SaveChangesAsync();
         return true;
     }
 
-    public async Task<UserResponse?> UpdateUserAsync(UpdateUserRequest updateUserRequest)
+    public async Task<UserResponse?> UpdateUserAsync(UserUpdateRequest userUpdateRequest)
     {
-        var userModel = _dbContext.User.FirstOrDefault(u => u.UserName == updateUserRequest.UserName);
+        var userModel = _dbContext.User.FirstOrDefault(u => u.UserName == userUpdateRequest.UserName);
         if(userModel is null) return null;
         
-        _dbContext.Entry(userModel).CurrentValues.SetValues(updateUserRequest);
+        _dbContext.Entry(userModel).CurrentValues.SetValues(userUpdateRequest);
         await _dbContext.SaveChangesAsync();
         
         return userModel.ToUserResponse();
