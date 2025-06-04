@@ -15,16 +15,16 @@ public static class MedicineEndpoints
         endpoints.MapGet("/{medicineId:int}", GetMedicine);
     }
     
-    private static async Task<IResult> GetMedicinesList([FromQuery] int lastId, IMedicineServices medicineServices)
+    private static async Task<IResult> GetMedicinesList([FromQuery] int lastId, IMedicineService medicineService)
     {
-        var medicinesMainInfo = await medicineServices.GetMedicinesListAsync(lastId);
+        var medicinesMainInfo = await medicineService.GetMedicinesListAsync(lastId);
         
         return TypedResults.Ok(medicinesMainInfo);
     }
 
-    private static async Task<Results<Ok<MedicineResponse>, NotFound>> GetMedicine(int medicineId, IMedicineServices medicineServices)
+    private static async Task<Results<Ok<MedicineResponse>, NotFound>> GetMedicine(int medicineId, IMedicineService medicineService)
     {
-        var medicine = await medicineServices.GetMedicineAsync(medicineId);
+        var medicine = await medicineService.GetMedicineAsync(medicineId);
         if(medicine is null) return TypedResults.NotFound();
         return TypedResults.Ok(medicine);
     }

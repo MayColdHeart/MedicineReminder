@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedicineReminder.Services;
 
-public interface IMedicineServices
+public interface IMedicineService
 {
     Task<List<MedicineMainInfoResponse>> GetMedicinesListAsync(int lastId);
     Task<MedicineResponse?> GetMedicineAsync(int medicineId);
@@ -14,12 +14,12 @@ public interface IMedicineServices
     Task<bool> DeleteMedicineAsync(int medicineId);
 }
 
-public class MedicineServices : IMedicineServices
+public class MedicineService : IMedicineService
 {
     private readonly AppDbContext _dbContext;
-    private readonly ILogger<MedicineServices> _logger;
+    private readonly ILogger<MedicineService> _logger;
     
-    public MedicineServices(AppDbContext dbContext, ILogger<MedicineServices> logger)
+    public MedicineService(AppDbContext dbContext, ILogger<MedicineService> logger)
     {
         _dbContext = dbContext;
         _logger = logger;
