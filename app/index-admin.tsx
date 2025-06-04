@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors } from '@/constants/colors';
 import UserList from '@/components/UserList';
@@ -8,6 +8,7 @@ import { useRouter } from 'expo-router';
 
 const IndexAdmin = () => {
     const router = useRouter();
+    const [notificationCount, setNotificationCount] = useState(3);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -17,6 +18,12 @@ const IndexAdmin = () => {
                 <TouchableOpacity onPress={() => router.push('/notification')} style={styles.notificationButton}>
                     <Ionicons name="notifications-outline" size={24} color={colors.primary} />
                 </TouchableOpacity>
+
+                {notificationCount > 0 && (
+                    <View style={styles.notificatorCountr}>
+                        <Text style={styles.notificatorCountrText}>{notificationCount}</Text>
+                    </View>
+                )}
             </View>
 
             <UserList />
