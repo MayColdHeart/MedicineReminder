@@ -15,6 +15,7 @@ public static class DependenciesConfig
     {
         services.AddScoped<IMedicineService, MedicineService>();
         services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<ITokenService, TokenService>();
     }
     
     public static void AddDatabase(this WebApplicationBuilder builder)
@@ -27,16 +28,18 @@ public static class DependenciesConfig
     {
         builder.Services.AddIdentityCore<User>()
             .AddRoles<IdentityRole>()
+            .AddSignInManager<SignInManager<User>>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
         
         builder.Services.Configure<IdentityOptions>(options =>
         {
+            options.User.RequireUniqueEmail = true;
             options.Password.RequireDigit = false;
             options.Password.RequireUppercase = false;
             options.Password.RequireLowercase = false;
             options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = 6;
+            options.Password.RequiredLength = 4;
             options.Password.RequiredUniqueChars = 1;
         });
     }

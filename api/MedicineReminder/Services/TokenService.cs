@@ -10,7 +10,7 @@ namespace MedicineReminder.Services;
 
 public interface ITokenService
 {
-    Task<string> GenerateToken(User user);
+    Task<string> GenerateTokenAsync(User user);
 }
 
 public class TokenService : ITokenService
@@ -24,7 +24,7 @@ public class TokenService : ITokenService
         _userManager = userManager;
     }
 
-    public async Task<string> GenerateToken(User user)
+    public async Task<string> GenerateTokenAsync(User user)
     {
         var secret = _configuration["JwtConfig:Secret"] ?? Environment.GetEnvironmentVariable("JWT_SECRET");
         var issuer = _configuration["JwtConfig:ValidIssuer"] ?? Environment.GetEnvironmentVariable("JWT_ISSUER");
