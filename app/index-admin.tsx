@@ -8,7 +8,7 @@ import { useRouter } from 'expo-router';
 
 const IndexAdmin = () => {
     const router = useRouter();
-    const [notificationCount, setNotificationCount] = useState(3);
+    const [notificationCount, setNotificationCount] = useState(2);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -17,13 +17,14 @@ const IndexAdmin = () => {
 
                 <TouchableOpacity onPress={() => router.push('/notification')} style={styles.notificationButton}>
                     <Ionicons name="notifications-outline" size={24} color={colors.primary} />
-                </TouchableOpacity>
-
-                {notificationCount > 0 && (
+                                    {notificationCount > 0 && (
                     <View style={styles.notificatorCountr}>
                         <Text style={styles.notificatorCountrText}>{notificationCount}</Text>
                     </View>
                 )}
+                </TouchableOpacity>
+
+
             </View>
 
             <UserList />
@@ -53,6 +54,24 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         padding: 8,
         backgroundColor: '#f9f9f9',
+    },
+        notificatorCountr: {
+        position: 'absolute',
+        bottom: -4,
+        left: -4,
+        backgroundColor: '#d32f2f',
+        borderRadius: 12,
+        width: 20,
+        height: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: 'white',
+    },
+    notificatorCountrText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 10,
     },
 });
 
