@@ -6,16 +6,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
 import User from '@/interfaces/User';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TouchableOpacity, Alert} from 'react-native';
+import { TouchableOpacity, Alert } from 'react-native';
 
 const ProfileText = ({ children }: { children: React.ReactNode }) => {
     return <Text style={styles.profileText}>{children}</Text>;
 };
 
-const ProfileInfo = ({user}: {user: User}) => {
+const ProfileInfo = ({ user }: { user: User }) => {
     return (
         <View style={styles.profileInfoContainer}>
-            <Image source={ {uri: user.photo} } style={styles.profilePhoto}/>     
+            <Image source={{ uri: user.photo }} style={styles.profilePhoto} />
             <Text style={styles.userName}>
                 {user.firstName} {user.lastName}
             </Text>
@@ -23,11 +23,11 @@ const ProfileInfo = ({user}: {user: User}) => {
             <ProfileText><Ionicons name="call-outline" size={18} />  {user.phone}</ProfileText>
 
             <View style={styles.BottominfCont} >
-            <Text style={styles.myRoutesHeader}>Medicamentos</Text>
-            <TouchableOpacity style={styles.historyButton} onPress={() => Alert.alert('Histórico de Medicamento','23:50 amoxicilina     Pendente\n13:00  Dipirona         Pendente\n ')}>
-            <Ionicons name="time-outline" size={18} color="#2e7d32" />
-            <Text style={styles.historyButtonText}>Histórico</Text>
-            </TouchableOpacity>
+                <Text style={styles.myRoutesHeader}>Medicamentos</Text>
+                <TouchableOpacity style={styles.historyButton} onPress={() => Alert.alert('Histórico de Medicamento', '23:50 amoxicilina     Pendente\n13:00  Dipirona         Pendente\n ')}>
+                    <Ionicons name="time-outline" size={18} color="#2e7d32" />
+                    <Text style={styles.historyButtonText}>Histórico</Text>
+                </TouchableOpacity>
             </View>
 
         </View>
@@ -38,9 +38,9 @@ const MedicineCard = ({ name }: { name: string }) => (
     <View style={styles.medicineCard}>
         <Ionicons name="medkit-outline" size={24} color="#4CAF50" />
         <Text style={styles.medicineText}>{name}</Text>
-        
+
     </View>
-    
+
 );
 
 const Profile = () => {
@@ -51,44 +51,44 @@ const Profile = () => {
 
     return (
         <SafeAreaView>
-            
-        <FlatList
-            ListHeaderComponent={<ProfileInfo user={user}/>}
-            data={userMedicines}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <MedicineCard name={item.medicineName} />}
-            contentContainerStyle={styles.routeList}
-            
-            
-        />
-        
+
+            <FlatList
+                ListHeaderComponent={<ProfileInfo user={user} />}
+                data={userMedicines}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => <MedicineCard name={item.medicineName} />}
+                contentContainerStyle={styles.routeList}
+
+
+            />
+
         </SafeAreaView>
-    
-    
+
+
     );
-    
+
 };
 
 
 
 const styles = StyleSheet.create({
-    
+
     profileInfoContainer: {
-    alignItems: "center",
-    paddingTop: 30,
-    paddingHorizontal: 20,
-    backgroundColor: "#f0fdf4",
-    paddingBottom: 20,
+        alignItems: "center",
+        paddingTop: 30,
+        paddingHorizontal: 20,
+        backgroundColor: "#f0fdf4",
+        paddingBottom: 20,
         borderBottomWidth: 1,
         borderColor: "#c8e6c9"
-},
-        userName: {
+    },
+    userName: {
         fontSize: 22,
         fontWeight: "bold",
         marginVertical: 10,
         color: "#2e7d32"
     },
-        myRoutesHeader: {
+    myRoutesHeader: {
         marginTop: 6,
         marginRight: 30,
         fontSize: 24,
@@ -96,12 +96,12 @@ const styles = StyleSheet.create({
         color: "#1b5e20"
     },
 
-        BottominfCont: {
-            flexDirection: 'row',
-            padding: 10,
-        },
+    BottominfCont: {
+        flexDirection: 'row',
+        padding: 10,
+    },
 
-        historyButton: {
+    historyButton: {
         marginTop: 0,
         flexDirection: 'row',
         alignItems: 'center',
@@ -113,21 +113,21 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         alignSelf: "flex-end",
     },
-        historyButtonText: {
+    historyButtonText: {
         marginLeft: 4,
         fontSize: 18,
         color: '#33691e',
         fontWeight: '500',
         alignSelf: 'flex-end',
     },
-        profilePhoto: {
+    profilePhoto: {
         width: 100,
         height: 100,
         borderRadius: 50,
         marginBottom: 15,
         backgroundColor: "#81c784"
     },
-        profileText: {
+    profileText: {
         fontSize: 16,
         padding: 10,
         marginVertical: 5,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff",
         color: "#333",
     },
-        medicineCard: {
+    medicineCard: {
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: "#e8f5e9",
@@ -150,11 +150,11 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#c8e6c9",
     },
-        medicineText: {
+    medicineText: {
         fontSize: 18,
         color: "#2e7d32"
     },
-        routeList: {
+    routeList: {
         paddingBottom: 40
     },
 });

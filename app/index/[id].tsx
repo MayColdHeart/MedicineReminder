@@ -5,7 +5,7 @@ import { medicines } from '@/fake_data/medicines';
 import { Link, useLocalSearchParams } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
-import AlarmEffect from '@/components/Alarm';
+import AlarmEffect from '@/components/AlarmEffect';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -45,11 +45,11 @@ const App = () => {
             </View>
 
             <View style={styles.alarmButtons}>
-                <TouchableOpacity onPress={() => setShowAlarm(true)} style={[styles.alarmButton, { backgroundColor: '#f44336' }]}>
-                    <Text style={styles.alarmButtonText}>Ativar Alarme</Text>
+                <TouchableOpacity onPress={() => setShowAlarm(true)} style={[styles.alarmButton, { backgroundColor: '#4CAF50' }]}>
+                    <Text style={styles.alarmButtonText}>Alarm</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setShowAlarm(false)} style={[styles.alarmButton, { backgroundColor: '#4CAF50' }]}>
-                    <Text style={styles.alarmButtonText}>Parar Alarme</Text>
+                <TouchableOpacity onPress={() => setShowAlarm(false)} style={[styles.alarmButton, { backgroundColor: '#f44336' }]}>
+                    <Text style={styles.alarmButtonText}>Stop Alarm</Text>
                 </TouchableOpacity>
             </View>
 
