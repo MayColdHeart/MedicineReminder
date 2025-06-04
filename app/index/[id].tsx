@@ -5,6 +5,7 @@ import { medicines } from '@/fake_data/medicines';
 import { Link, useLocalSearchParams } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
+import AlarmEffect from '@/components/Alarm';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -15,34 +16,44 @@ const App = () => {
     const [showMedicineForm, setShowMedicineForm] = useState(false);
     const [updatingMedicine, setUpdatingMedicine] = useState(false);
     const [currentMedicineId, setCurrentMedicineId] = useState<number>(0); // used to edit in medicine form
+    const [showAlarm, setShowAlarm] = useState(false);
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
 
-                
-    <Link href={`/profile/${loggedUserId}`} asChild>
-        <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
-        </TouchableOpacity>
-    </Link>
 
-    <Text style={styles.headerTitle}>MedicineReminder</Text>
+                <Link href={`/profile/${loggedUserId}`} asChild>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <Ionicons name="person-circle-outline" size={32} color="#4CAF50" />
+                    </TouchableOpacity>
+                </Link>
+
+                <Text style={styles.headerTitle}>MedicineReminder</Text>
                 <TouchableOpacity
-                
+
                     style={[styles.addButton, { backgroundColor: 'white' }]}
                     onPress={() => setShowMedicineForm(true)}>
 
                     <Ionicons
-                    name="add-circle-outline"
-                    size={32}
-                    color="#4CAF50"
+                        name="add-circle-outline"
+                        size={32}
+                        color="#4CAF50"
                     />
-                    
+
                 </TouchableOpacity>
             </View>
-       
 
+            <View style={styles.alarmButtons}>
+                <TouchableOpacity onPress={() => setShowAlarm(true)} style={[styles.alarmButton, { backgroundColor: '#f44336' }]}>
+                    <Text style={styles.alarmButtonText}>Ativar Alarme</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowAlarm(false)} style={[styles.alarmButton, { backgroundColor: '#4CAF50' }]}>
+                    <Text style={styles.alarmButtonText}>Parar Alarme</Text>
+                </TouchableOpacity>
+            </View>
+
+            {showAlarm && <AlarmEffect />}
 
             <MedicineList
                 medicines={medicines.filter(medicine => medicine.userId === loggedUserId)}
@@ -51,12 +62,12 @@ const App = () => {
                 setCurrentMedicineId={setCurrentMedicineId}
             />
             {showMedicineForm && (<MedicineForm
-                                    loggedUserId={loggedUserId} 
-                                    setShowMedicineForm={setShowMedicineForm}
-                                    setUpdatingMedicine={setUpdatingMedicine}
-                                    updatingMedicine={updatingMedicine}
-                                    currentMedicineId={currentMedicineId}
-                                    />)}
+                loggedUserId={loggedUserId}
+                setShowMedicineForm={setShowMedicineForm}
+                setUpdatingMedicine={setUpdatingMedicine}
+                updatingMedicine={updatingMedicine}
+                currentMedicineId={currentMedicineId}
+            />)}
         </SafeAreaView>
     );
 };
@@ -94,13 +105,29 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     } as TextStyle,
     iconButton: {
-    backgroundColor: 'white',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-} as ViewStyle,
+        backgroundColor: 'white',
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    } as ViewStyle,
+    alarmButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginVertical: 20,
+        paddingHorizontal: 20,
+    } as ViewStyle,
+    alarmButton: {
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 8,
+    } as ViewStyle,
+    alarmButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 14,
+    } as TextStyle,
 });
 
 export default App;
