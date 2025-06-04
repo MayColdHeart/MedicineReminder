@@ -18,6 +18,7 @@ export default function RegistreScreen() {
         <TextInput style={styles.entrada} placeholder="Username"/>
         <TextInput style={styles.entrada} placeholder="email"/>
         <TextInput style={styles.entrada} placeholder="phone"/>
+        <TextInput style={styles.entrada} placeholder="password"/>
 
         <TouchableOpacity style={styles.botao} activeOpacity={0.5}>
           <Text style={styles.textobotao}>Confirmar</Text>
