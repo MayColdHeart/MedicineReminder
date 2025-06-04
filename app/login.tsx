@@ -40,6 +40,10 @@ export default function LoginScreen() {
         <TouchableOpacity onPress={() => alert('Esqueceu a senha?')} activeOpacity={0.5}>
           <Text style={styles.textosenha}>Esqueceu a senha?</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => router.navigate('/registro')} activeOpacity={0.5}>
+          <Text style={styles.textosenha}>Novo Usuario?</Text>
+        </TouchableOpacity>
       </View>
   );
 }
