@@ -27,7 +27,7 @@ public static class DependenciesConfig
     public static void AddCustomIdentityCore(this WebApplicationBuilder builder)
     {
         builder.Services.AddIdentityCore<User>()
-            .AddRoles<IdentityRole>()
+            .AddRoles<IdentityRole<int>>()
             .AddSignInManager<SignInManager<User>>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();

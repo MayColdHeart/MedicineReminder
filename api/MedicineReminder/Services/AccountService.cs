@@ -46,8 +46,7 @@ public class AccountService : IAccountService
     {
         // TODO: Add pagination
         var userMainInfoList = await _dbContext.User
-            .OrderByDescending(u => u.CreatedAt)
-            .ThenBy(u => u.Id)
+            .OrderByDescending(u => u.Id)
             .Select(u => u.ToUserMainInfoResponse())
             .ToListAsync();
 

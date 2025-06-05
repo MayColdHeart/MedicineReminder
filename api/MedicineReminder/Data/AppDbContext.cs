@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedicineReminder.Data;
 
-public class AppDbContext : IdentityDbContext<User>
+public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
     public AppDbContext(DbContextOptions <AppDbContext> options) : base(options)
     {
