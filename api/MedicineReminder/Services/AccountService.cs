@@ -56,7 +56,7 @@ public class AccountService : IAccountService
     public async Task<string> RegisterAsync(UserRegisterRequest userRegisterRequest)
     {
         var newUser = userRegisterRequest.ToUserModel();
-        newUser.CreatedAt = DateTimeOffset.Now;
+        newUser.CreatedAt = DateTimeOffset.UtcNow;
         
         var result = await _userManager.CreateAsync(newUser, userRegisterRequest.Password);
         if (!result.Succeeded)

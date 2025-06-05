@@ -13,5 +13,5 @@ public class Medicine
 
     public User User { get; set; } = null!;
     public UnitOfMeasurement DosageUnit { get; set; } = null!;
-    public List<Schedule> Schedules { get; } = [];
+    public List<Schedule> Schedules { get; set; } = [];
 }
