@@ -22,7 +22,19 @@ const MedicineItem = ({ medicine, setUpdatingMedicine, setShowMedicineForm, setC
             <TimeButton />
             <View style={styles.textContainer}>
                 <Text style={styles.textoRemedio}>{medicine.medicineName}</Text>
+                <Text style={styles.time}>
+                    {medicine.schedule
+                        .slice(0, 2) 
+                        .map(entry =>
+                            new Date(entry.hour).toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            })
+                        )
+                        .join('  |  ')}
+                </Text>
             </View>
+
 
 
             <TouchableOpacity
@@ -72,7 +84,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1.5,
         borderColor: '#60af6385',
-        backgroundColor: '#f9f9f9' ,
+        backgroundColor: '#f9f9f9',
         borderRadius: 20,
         paddingVertical: 8,
         paddingHorizontal: 12,
@@ -95,6 +107,12 @@ const styles = StyleSheet.create({
     },
     icon: {
         fontSize: 18,
+    },
+    time: {
+        fontSize: 14,
+        color: '#666',
+        marginTop: 4,
+        textAlign: 'center',
     },
 });
 
