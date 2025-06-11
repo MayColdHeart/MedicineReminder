@@ -15,19 +15,20 @@ type MedicineListProps = {
 
 const MedicineList = ({ medicines, setUpdatingMedicine, setShowMedicineForm, setCurrentMedicineId }: MedicineListProps) => {
     return (
-        <FlatList style={styles.content}
-
+        <FlatList
+            style={styles.content}
             data={medicines}
-            renderItem={({ item }) => <MedicineItem
-                medicine={item}
-                setUpdatingMedicine={setUpdatingMedicine}
-                setShowMedicineForm={setShowMedicineForm}
-                setCurrentMedicineId={setCurrentMedicineId}
-            />}
-            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+                <MedicineItem
+                    medicine={item}
+                    setUpdatingMedicine={setUpdatingMedicine}
+                    setShowMedicineForm={setShowMedicineForm}
+                    setCurrentMedicineId={setCurrentMedicineId}
+                />
+            )}
+            keyExtractor={(item) => (item.id ? item.id.toString() : Math.random().toString())}
         />
     );
-
 }
 
 const styles = StyleSheet.create({
