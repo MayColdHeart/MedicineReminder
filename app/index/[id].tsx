@@ -65,7 +65,7 @@ const App = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#F0F4F8', // cor de fundo suave
     },
     header: {
         height: 95,
@@ -74,19 +74,33 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 20,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
     } as ViewStyle,
     headerTitle: {
         color: 'white',
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
+        textAlign: 'center',
+        flex: 1,
     } as TextStyle,
     addButton: {
         backgroundColor: 'white',
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: 44,
+        height: 44,
+        borderRadius: 22,
         justifyContent: 'center',
         alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 3,
     } as ViewStyle,
     addButtonText: {
         color: '#4CAF50',
@@ -94,13 +108,19 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     } as TextStyle,
     iconButton: {
-    backgroundColor: 'white',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-} as ViewStyle,
+        backgroundColor: 'white',
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 3,
+    } as ViewStyle,
 });
+
 
 export default App;
