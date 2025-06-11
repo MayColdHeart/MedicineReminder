@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using MedicineReminder.Constants;
 using MedicineReminder.Data;
 using MedicineReminder.Models;
 using Microsoft.AspNetCore.Identity;
@@ -19,15 +21,30 @@ public static class DatabaseStartUp
             if (!dbContext.User.Any())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-                SeedDatabase(dbContext, userManager);
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+                SeedDatabase(dbContext, userManager, roleManager).Wait();
             }
         }
     }
 
-    private static void SeedDatabase(AppDbContext dbContext, UserManager<User> userManager)
+    private static async Task SeedDatabase(AppDbContext dbContext, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
     {
+        // Seed roles
+        var adminRole = await roleManager.FindByNameAsync(RoleConstants.Admin);
+        if (adminRole is null)
+        {
+            await roleManager.CreateAsync(new IdentityRole<int>(RoleConstants.Admin));
+        }
+
+        var userRole = await roleManager.FindByNameAsync(RoleConstants.User);
+        if (userRole is null)
+        {
+            await roleManager.CreateAsync(new IdentityRole<int>(RoleConstants.User));
+        }
+
+
         const string testPassword = "1234";
-        
+
         List<User> users = [
             new()
             {
@@ -41,7 +58,7 @@ public static class DatabaseStartUp
             new()
             {
                 FirstName = "Ana",
-                LastName = "Silva", 
+                LastName = "Silva",
                 UserName = "ana-silva",
                 Email = "ana.silva@email.com",
                 PhoneNumber = "61999999999",
@@ -51,7 +68,7 @@ public static class DatabaseStartUp
             {
                 FirstName = "João",
                 LastName = "Ferreira",
-                UserName = "joao-ferreira", 
+                UserName = "joao-ferreira",
                 Email = "joao.ferreira@email.com",
                 PhoneNumber = "61999999999",
                 Photo = "https://images.pexels.com/photos/31644561/pexels-photo-31644561/free-photo-of-luzes-a-noite-no-japao.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -61,7 +78,7 @@ public static class DatabaseStartUp
                 FirstName = "Beatriz",
                 LastName = "Rocha",
                 UserName = "beatriz-rocha",
-                Email = "beatriz.rocha@email.com", 
+                Email = "beatriz.rocha@email.com",
                 PhoneNumber = "61999999999",
                 Photo = "https://images.pexels.com/photos/31613570/pexels-photo-31613570/free-photo-of-retrato-caprichoso-em-um-campo-de-flores-encantador.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             },
@@ -78,16 +95,28 @@ public static class DatabaseStartUp
             {
                 FirstName = "Carla",
                 LastName = "Almeida",
-                UserName = "carla-almeida", 
+                UserName = "carla-almeida",
                 Email = "carla.almeida@email.com",
                 PhoneNumber = "61999999999",
                 Photo = "https://images.pexels.com/photos/31612073/pexels-photo-31612073/free-photo-of-idoso-aproveita-vista-da-praia-com-bicicleta.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            },
+            new()
+            {
+                FirstName = "admin",
+                LastName = "admin",
+                UserName = "admin",
+                Email = "admin@email.com",
+                PhoneNumber = "61999999999",
+                Photo = "https://images.pexels.com/photos/6424585/pexels-photo-6424585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             }
         ];
 
         var units = new List<UnitOfMeasurement>
         {
-            new UnitOfMeasurement { Name = "ml"}
+            new UnitOfMeasurement { Name = "ml"},
+            new UnitOfMeasurement { Name = "mg"},
+            new UnitOfMeasurement { Name = "g"},
+            new UnitOfMeasurement { Name = "l"},
         };
         
         var dateNow = DateTimeOffset.UtcNow;
@@ -236,10 +265,16 @@ public static class DatabaseStartUp
         };
 
         var transaction = dbContext.Database.BeginTransaction();
-        
+
         foreach (var user in users)
         {
-            userManager.CreateAsync(user, testPassword).Wait();
+            await userManager.CreateAsync(user, testPassword);
+            await userManager.AddToRoleAsync(user, RoleConstants.User);
+
+            if (user.UserName == "admin")
+            {
+                await userManager.AddToRoleAsync(user, RoleConstants.Admin);
+            }
         }
         
         dbContext.UnitOfMeasurement.AddRange(units);
