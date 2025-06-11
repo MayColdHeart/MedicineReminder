@@ -6,7 +6,8 @@ public static class OpenApiConfig
 {
     public static void UseOpenApi(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
+        // TODO: Remove from production environment
+        if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
         {
             app.MapOpenApi();
             app.MapScalarApiReference(options =>
@@ -14,7 +15,7 @@ public static class OpenApiConfig
                 options.Title = "Medicine Reminder API";
                 options.Theme = ScalarTheme.Saturn;
                 options.DarkMode = true;
-                options.DefaultHttpClient = KeyValuePair.Create(ScalarTarget.JavaScript, ScalarClient.Fetch);
+                options.DefaultHttpClient = KeyValuePair.Create(ScalarTarget.JavaScript, ScalarClient.Axios);
             });
         }
     }

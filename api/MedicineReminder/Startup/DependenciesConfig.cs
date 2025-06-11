@@ -20,7 +20,7 @@ public static class DependenciesConfig
     
     public static void AddDatabase(this WebApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? Environment.GetEnvironmentVariable("MSSQL_CONNECTION_STRING");
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
     }
     

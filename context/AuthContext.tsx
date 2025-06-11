@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Constants from 'expo-constants'
 import React, { createContext, useContext, useState, useEffect, JSX } from 'react';
 import * as SecureStore from 'expo-secure-store';
 
@@ -7,18 +8,25 @@ interface AuthProps {
         isAuthenticated: boolean | null;
         token: string | null;
     };
-    onRegister?: (username: string, email: string, phoneNumber: string, password: string) => Promise<any>;
-    onLogin?: (username: string, password: string) => Promise<any>;
-    onLogout?: () => Promise<any>;
+    register?: (username: string, email: string, phoneNumber: string, password: string) => Promise<any>;
+    login?: (username: string, password: string) => Promise<any>;
+    logout?: () => Promise<any>;
 }
 
 const TOKEN_KEY = 'my-jwt';
-export const API_URL = 'http://localhost:5163';
+
+const hostUri = Constants.expoConfig?.hostUri || '';
+const host = hostUri.split(':')[0];
+
+if (host === '') console.warn('Host URI is not defined. Please check your Expo configuration.')
+else console.log('Host URI:', host);
+
+export const API_URL = `http://${host}:5163`;
+
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    return context;
+    return useContext(AuthContext);
 }
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
@@ -42,7 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
         loadToken();
     }, []);
 
-    const onRegister = async (username: string, email: string, phoneNumber: string, password: string) => {
+    const register = async (username: string, email: string, phoneNumber: string, password: string) => {
         try {
             const response = await axios.post(`${API_URL}/accounts/register`, {
                 username,
@@ -57,14 +65,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
         }
     };
 
-    const onLogin = async (username: string, password: string) => {
+    const login = async (username: string, password: string) => {
         try {
             const response = await axios.post(`${API_URL}/accounts/login`, {
                 username,
                 password
             });
 
-            console.log('Login response:', response);
+            console.log('Login response:', response.data);
 
             const token: string = response.data.token;
 
@@ -87,7 +95,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
         }
     };
 
-    const onLogout = async () => {
+    const logout = async () => {
         setAuthState({
             isAuthenticated: false,
             token: null
@@ -98,7 +106,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     };
 
     return (
-        <AuthContext.Provider value={{ authState, onRegister, onLogin, onLogout }}>
+        <AuthContext.Provider value={{ authState, register, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

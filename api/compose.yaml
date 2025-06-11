@@ -4,11 +4,11 @@
       context: ./MedicineReminder
       target: final
     ports:
-      - "5000:8080"
+      - "5163:8080"
     container_name: medicine_reminder_api
     hostname: medicine_reminder_host
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_ENVIRONMENT=Development
       - JWT_ISSUER=${JWT_ISSUER}
       - JWT_AUDIENCE=${JWT_AUDIENCE}
       - JWT_SECRET=${JWT_SECRET}
