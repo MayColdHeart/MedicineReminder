@@ -15,28 +15,31 @@ public static class DependenciesConfig
     {
         services.AddScoped<IMedicineService, MedicineService>();
         services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<ITokenService, TokenService>();
     }
     
     public static void AddDatabase(this WebApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? Environment.GetEnvironmentVariable("MSSQL_CONNECTION_STRING");
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
     }
     
     public static void AddCustomIdentityCore(this WebApplicationBuilder builder)
     {
         builder.Services.AddIdentityCore<User>()
-            .AddRoles<IdentityRole>()
+            .AddRoles<IdentityRole<int>>()
+            .AddSignInManager<SignInManager<User>>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
         
         builder.Services.Configure<IdentityOptions>(options =>
         {
+            options.User.RequireUniqueEmail = true;
             options.Password.RequireDigit = false;
             options.Password.RequireUppercase = false;
             options.Password.RequireLowercase = false;
             options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = 6;
+            options.Password.RequiredLength = 4;
             options.Password.RequiredUniqueChars = 1;
         });
     }

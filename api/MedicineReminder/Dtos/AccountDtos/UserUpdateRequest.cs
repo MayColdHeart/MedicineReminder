@@ -1,6 +1,6 @@
 namespace MedicineReminder.Dtos.AccountDtos;
 
-public record UpdateUserRequest(
+public record UserUpdateRequest(
     string UserName,
     string Email,
     string PhoneNumber,

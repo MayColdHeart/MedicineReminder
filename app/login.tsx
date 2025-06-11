@@ -1,4 +1,5 @@
 import { colors } from '@/constants/colors'
+import { useAuth } from '@/context/AuthContext'
 import { users } from '@/fake_data/users'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
@@ -6,10 +7,21 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import * as Animatable from 'react-native-animatable'
 
 export default function LoginScreen() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const { authState, login } = useAuth();
 
-  const handleLogin = () => {
+  console.log('Auth State:', authState);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    if (!login) {
+      console.log('Login function is not available.');
+      return;
+    }
+    const loginResponse = await login(username, password);
+    console.log('Login Response:', loginResponse);
+
     const loggedUser = users.find(user => user.username === username);
 
     if (username === "admin" && password === "admin") {
