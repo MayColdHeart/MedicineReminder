@@ -57,11 +57,11 @@ public static class DependenciesConfig
             var issuer = builder.Configuration["JwtConfig:ValidIssuer"] ?? Environment.GetEnvironmentVariable("JWT_ISSUER");
             var audience = builder.Configuration["JwtConfig:ValidAudiences"] ?? Environment.GetEnvironmentVariable("JWT_AUDIENCE");
 
-            if(secret is null || issuer is null || audience is null)
+            if (secret is null || issuer is null || audience is null)
             {
                 throw new ApplicationException("Jwt is not set in the configuration");
             }
-            
+
             options.RequireHttpsMetadata = false; // TODO: change back to true in deploy
             options.TokenValidationParameters = new TokenValidationParameters()
             {
