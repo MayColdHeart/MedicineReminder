@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MedicineReminder.Dtos.AccountDtos;
 using MedicineReminder.Dtos.EndpointDtos;
 using MedicineReminder.Hubs;
@@ -86,12 +87,19 @@ public static class AccountEndpoints
 
     private static async Task<IResult> NotifyAdmin(
         NotifyRequest notifyRequest,
-        IHubContext<NotificationHub, INotificationClient> hubContext
+        IHubContext<NotificationHub, INotificationClient> hubContext,
+        HttpContext httpContext
     )
     {
-        await hubContext.Clients.All.AdminsReceiveNotification(notifyRequest.Username, notifyRequest.Message, notifyRequest.AlarmTime);
+        var username = httpContext.User.FindFirstValue(ClaimTypes.Name);
+        if(username is null)
+        {
+            return TypedResults.BadRequest("Unable to find logged user");
+        } 
+        
+        await hubContext.Clients.All.AdminsReceiveNotification(username, notifyRequest.Message, notifyRequest.AlarmTime);
         // Log the notification
-        Console.WriteLine($"Notification sent to {notifyRequest.Username} at {notifyRequest.AlarmTime}: {notifyRequest.Message}");
+        Console.WriteLine($"THIS IS FROM ENDPOINT: Notification sent from {username} at {notifyRequest.AlarmTime}: {notifyRequest.Message}");
         return TypedResults.Ok(new MessageResponse("Notification sent to admin."));
     }
 }
