@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { medicines } from '@/fake_data/medicines';
 import { Link, useLocalSearchParams } from 'expo-router';
@@ -38,6 +38,35 @@ const App = () => {
         console.log('Logged User:', loggedUser.username);
         notifyAdmin(`Notification from ${loggedUser.username}. User is logged.`, loggedUser.username, new Date());
     }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const now = new Date();
+            const inOneMinute = new Date(now.getTime() + 60 * 1000);
+
+            medicines
+                .filter(med => med.userId === loggedUserId)
+                .forEach(med => {
+                    med.schedule.forEach(scheduleItem => {
+                        if (
+                            !scheduleItem.isTaken &&
+                            scheduleItem.hour >= now &&
+                            scheduleItem.hour <= inOneMinute
+                        ) {
+                            Alert.alert(
+                                'Hora do remédio!',
+                                `${med.medicineName} - ${med.dosage}${med.dosageUnit}`
+                            );
+
+                            // Optionally: mark it as shown/taken or avoid repeated alerts
+                            scheduleItem.isTaken = true;
+                        }
+                    });
+                });
+        }, 30 * 1000); // check every 30 seconds
+
+        return () => clearInterval(interval); // cleanup
+    }, [loggedUserId]);
 
     return (
         <SafeAreaView style={styles.container}>
