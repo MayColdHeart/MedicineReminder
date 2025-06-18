@@ -9,24 +9,39 @@ public interface INotificationClient
 
 public class NotificationHub : Hub<INotificationClient>
 {
+   private readonly ILogger<NotificationHub> _logger;
+
+   public NotificationHub(ILogger<NotificationHub> logger)
+   {
+       _logger = logger;
+   }
+
     public async Task SendNotification(string username, string message, DateTimeOffset alarmTime)
     {
         // Log the notification
-        Console.WriteLine($"Notification sent to {username} at {alarmTime}: {message}");
+        _logger.LogInformation("Notification sent to {Username} at {DateTimeOffset}: {Message}", username, alarmTime, message);
 
-        // Send the notification to the specific user
+        // Send the notification to all clients connect to notification hub, (only admins)
         await Clients.All.AdminsReceiveNotification(username, message, alarmTime);
     }
 
-    public override Task OnConnectedAsync()
-    {
-        Console.WriteLine($"User connected: {Context.UserIdentifier}");
-        return base.OnConnectedAsync();
-    }
+   public override Task OnConnectedAsync()
+   {
+       _logger.LogInformation("User connected: {ContextUserIdentifier}", Context.UserIdentifier);
+       return base.OnConnectedAsync();
+   }
 
-    public override Task OnDisconnectedAsync(Exception? exception)
-    {
-        Console.WriteLine($"User disconnected: {Context.UserIdentifier}");
-        return base.OnDisconnectedAsync(exception);
-    }
+   public override Task OnDisconnectedAsync(Exception? exception)
+   {
+       if (exception != null)
+       {
+           _logger.LogError(exception, "User disconnected with an error: {ContextUserIdentifier}", Context.UserIdentifier);
+       }
+       else
+       {
+           _logger.LogInformation($"User disconnected gracefully: {Context.UserIdentifier}");
+       }
+
+       return base.OnDisconnectedAsync(exception);
+   }
 }
