@@ -1,9 +1,12 @@
 import Medicine from "@/interfaces/Medicine";
 
-const dateNow = new Date();
+const fixedDate = new Date(Date.now() + 60 * 60 * 1000); // Date one hour from now
 
-const dateAfter = new Date(dateNow);
-dateAfter.setHours(dateAfter.getHours() + 12);
+const dateAlmostNow = new Date();
+dateAlmostNow.setMinutes(dateAlmostNow.getMinutes() + 1);
+
+const dateAfter = new Date(fixedDate);
+dateAfter.setHours(dateAfter.getHours() + 8);
 
 const dateMoreAfter = new Date(dateAfter);
 dateMoreAfter.setHours(dateMoreAfter.getHours() + 8);
@@ -17,8 +20,8 @@ export const medicines: Medicine[] = [
         medicineName: "Dipirona",
         userId: 1,
         schedule: [
-            { hour: dateNow, isTaken: false },
-            { hour: dateAfter, isTaken: true },
+            { hour: dateAlmostNow, isTaken: false },
+            { hour: dateAfter, isTaken: false },
         ],
         dosage: 7,
         dosageUnit: "ml"
@@ -50,7 +53,7 @@ export const medicines: Medicine[] = [
         medicineName: "Ibuprofeno",
         userId: 1,
         schedule: [
-            { hour: dateNow, isTaken: true },
+            { hour: fixedDate, isTaken: true },
             { hour: dateAfter, isTaken: false },
         ],
         dosage: 400,
@@ -61,7 +64,7 @@ export const medicines: Medicine[] = [
         medicineName: "Loratadina",
         userId: 4,
         schedule: [
-            { hour: dateNow, isTaken: false },
+            { hour: fixedDate, isTaken: false },
         ],
         dosage: 10,
         dosageUnit: "mg"
@@ -82,7 +85,7 @@ export const medicines: Medicine[] = [
         medicineName: "Prednisona",
         userId: 1,
         schedule: [
-            { hour: dateNow, isTaken: true },
+            { hour: fixedDate, isTaken: true },
             { hour: dateAfter, isTaken: false },
         ],
         dosage: 5,
@@ -103,7 +106,7 @@ export const medicines: Medicine[] = [
         medicineName: "Metformina",
         userId: 3,
         schedule: [
-            { hour: dateNow, isTaken: true },
+            { hour: fixedDate, isTaken: true },
             { hour: dateMuchMoreAfter, isTaken: false },
         ],
         dosage: 850,
@@ -114,7 +117,7 @@ export const medicines: Medicine[] = [
         medicineName: "Losartana",
         userId: 3,
         schedule: [
-            { hour: dateNow, isTaken: true },
+            { hour: fixedDate, isTaken: true },
         ],
         dosage: 50,
         dosageUnit: "mg"
@@ -124,7 +127,7 @@ export const medicines: Medicine[] = [
         medicineName: "Cetirizina",
         userId: 6,
         schedule: [
-            { hour: dateNow, isTaken: false },
+            { hour: fixedDate, isTaken: false },
         ],
         dosage: 10,
         dosageUnit: "mg"
@@ -144,7 +147,7 @@ export const medicines: Medicine[] = [
         medicineName: "Ranitidina",
         userId: 4,
         schedule: [
-            { hour: dateNow, isTaken: false },
+            { hour: fixedDate, isTaken: false },
             { hour: dateAfter, isTaken: true },
         ],
         dosage: 150,
@@ -175,7 +178,7 @@ export const medicines: Medicine[] = [
         medicineName: "Captopril",
         userId: 1,
         schedule: [
-            { hour: dateNow, isTaken: true },
+            { hour: fixedDate, isTaken: true },
             { hour: dateAfter, isTaken: true },
         ],
         dosage: 25,
@@ -186,7 +189,7 @@ export const medicines: Medicine[] = [
         medicineName: "Fluoxetina",
         userId: 3,
         schedule: [
-            { hour: dateNow, isTaken: true },
+            { hour: fixedDate, isTaken: true },
         ],
         dosage: 20,
         dosageUnit: "mg"
