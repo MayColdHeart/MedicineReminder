@@ -1,19 +1,21 @@
 namespace MedicineReminder.Hubs;
 
-using MedicineReminder.Services;
 using Microsoft.AspNetCore.SignalR; 
 
 public interface INotificationClient
 {
-    Task ReceiveNotification(string message);
+    Task AdminsReceiveNotification(string username, string message, DateTimeOffset alarmTime);
 } 
 
 public class NotificationHub : Hub<INotificationClient>
 {
-
-    public async Task SendNotification(string userId, string message)
+    public async Task SendNotification(string username, string message, DateTimeOffset alarmTime)
     {
-        await Clients.User(userId).ReceiveNotification(message);
+        // Log the notification
+        Console.WriteLine($"Notification sent to {username} at {alarmTime}: {message}");
+
+        // Send the notification to the specific user
+        await Clients.All.AdminsReceiveNotification(username, message, alarmTime);
     }
 
     public override Task OnConnectedAsync()

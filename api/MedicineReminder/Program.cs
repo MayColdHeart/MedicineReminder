@@ -1,4 +1,5 @@
 using MedicineReminder.Endpoints;
+using MedicineReminder.Hubs;
 using MedicineReminder.Startup;
 using MedicineReminder.Startup.OpenApiTransformers;
 
@@ -45,6 +46,7 @@ app.UseAuthorization();
 
 app.MapRootEndpoints();
 app.MapAccountEndpoints();
+app.MapHub<NotificationHub>("/notificationHub");
 app.MapMedicineEndpoints();
 
 app.Run();

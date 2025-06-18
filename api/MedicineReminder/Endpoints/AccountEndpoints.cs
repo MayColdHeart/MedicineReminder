@@ -1,9 +1,10 @@
 using MedicineReminder.Dtos.AccountDtos;
 using MedicineReminder.Dtos.EndpointDtos;
+using MedicineReminder.Hubs;
 using MedicineReminder.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace MedicineReminder.Endpoints;
 
@@ -12,18 +13,19 @@ public static class AccountEndpoints
     public static void MapAccountEndpoints(this IEndpointRouteBuilder app)
     {
         var endpoints = app.MapGroup("/accounts");
-        
+
         endpoints.MapPost("/register", Register);
         endpoints.MapPost("/login", Login);
         endpoints.MapGet("/", GetUsersList);
-        endpoints.MapGet("/{username:alpha}", GetUser)
+        endpoints.MapGet("/{username}", GetUser)
             .RequireAuthorization();
-        endpoints.MapPut("/{username:alpha}", UpdateUser)
+        endpoints.MapPut("/{username}", UpdateUser)
             .RequireAuthorization();
-        endpoints.MapDelete("/{username:alpha}", DeleteUser)
+        endpoints.MapDelete("/{username}", DeleteUser)
             .RequireAuthorization();
+        endpoints.MapPost("/notify", NotifyAdmin);
     }
-    
+
     private static async Task<Results<Ok<TokenResponse>, BadRequest<MessageResponse>>> Register(UserRegisterRequest userRegister, IAccountService accountService)
     {
         try
@@ -59,26 +61,37 @@ public static class AccountEndpoints
     private static async Task<Results<Ok<UserResponse>, NotFound>> GetUser(string username, IAccountService accountService)
     {
         var userResponse = await accountService.GetUserAsync(username);
-        
-        if(userResponse is null) return TypedResults.NotFound();
-        
+
+        if (userResponse is null) return TypedResults.NotFound();
+
         return TypedResults.Ok(userResponse);
     }
 
-    private static async Task<Results<Ok<MessageResponse>,BadRequest<MessageResponse>>> DeleteUser(string username, IAccountService accountService)
+    private static async Task<Results<Ok<MessageResponse>, BadRequest<MessageResponse>>> DeleteUser(string username, IAccountService accountService)
     {
         bool userDeleted = await accountService.DeleteUserAsync(username);
-        
-        if(userDeleted) return TypedResults.Ok(new MessageResponse("User deleted"));
+
+        if (userDeleted) return TypedResults.Ok(new MessageResponse("User deleted"));
         return TypedResults.BadRequest(new MessageResponse("Unable to delete user."));
     }
-    
+
     private static async Task<Results<Ok<UserResponse>, BadRequest<MessageResponse>>> UpdateUser(UserUpdateRequest userUpdateRequest, IAccountService accountService)
     {
         var userResponse = await accountService.UpdateUserAsync(userUpdateRequest);
-        
-        if(userResponse is null) return TypedResults.BadRequest(new MessageResponse("Unable to update user."));
-        
+
+        if (userResponse is null) return TypedResults.BadRequest(new MessageResponse("Unable to update user."));
+
         return TypedResults.Ok(userResponse);
+    }
+
+    private static async Task<IResult> NotifyAdmin(
+        NotifyRequest notifyRequest,
+        IHubContext<NotificationHub, INotificationClient> hubContext
+    )
+    {
+        await hubContext.Clients.All.AdminsReceiveNotification(notifyRequest.Username, notifyRequest.Message, notifyRequest.AlarmTime);
+        // Log the notification
+        Console.WriteLine($"Notification sent to {notifyRequest.Username} at {notifyRequest.AlarmTime}: {notifyRequest.Message}");
+        return TypedResults.Ok(new MessageResponse("Notification sent to admin."));
     }
 }
