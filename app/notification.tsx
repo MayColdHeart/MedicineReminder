@@ -5,7 +5,7 @@ import { colors } from '@/constants/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import * as Animatable from "react-native-animatable"
+import * as Animatable from "react-native-animatable";
 
 const Notification = () => {
      const router = useRouter();
@@ -16,7 +16,7 @@ const Notification = () => {
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
                     <Ionicons name="arrow-back" size={24} color={colors.primary} />
                 </TouchableOpacity>
-                <Animatable.Text animation='flipInX' delay={500} style={styles.title}>Notificações</Animatable.Text>
+                <Animatable.Text animation='flipInX' delay={50} style={styles.title}>Notificações</Animatable.Text>
             </View>
             
 
@@ -24,7 +24,7 @@ const Notification = () => {
                 data={users}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <Animatable.View animation='fadeInDown' delay={750} style={styles.alertCard}>
+                    <Animatable.View animation='fadeInDown' delay={50} style={styles.alertCard}>
                         <Ionicons name="warning-outline" size={40} color={colors.warning} />
                         <Text style={styles.alertText}>
                             {item.firstName} {item.lastName} precisa administrar a medicação.
