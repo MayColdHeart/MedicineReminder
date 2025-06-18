@@ -10,21 +10,21 @@ import { API_URL } from '@/context/AuthContext';
 import axios from 'axios';
 import { users } from '@/fake_data/users';
 
-// const notifyAdmin = async (username: string, alarmTime: Date) => {
-//     const options = {
-//         method: 'POST',
-//         url: `${API_URL}/notify`,
-//         headers: {'Content-Type': 'application/json'},
-//         data: {username: username, message: 'Notification from client was sent', alarmTime: alarmTime}
-//     };
+const notifyAdmin = async (message: string, username: string, alarmTime: Date) => {
+    const options = {
+        method: 'POST',
+        url: `${API_URL}/accounts/notify`,
+        headers: {'Content-Type': 'application/json'},
+        data: { message: message, alarmTime: alarmTime }
+    };
 
-//     try {
-//         const { data } = await axios.request(options);
-//         console.log(data);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
+    try {
+        const { data } = await axios.request(options);
+        console.log('Notification sent successfully:');
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 const App = () => {
     const { id } = useLocalSearchParams();
@@ -34,9 +34,10 @@ const App = () => {
     const [currentMedicineId, setCurrentMedicineId] = useState<number>(0); // used to edit in medicine form
 
     const loggedUser = users.find((user) => user.id === loggedUserId);
-    // if (loggedUser) {
-    //     notifyAdmin(loggedUser.username, new Date());
-    // }
+    if (loggedUser) {
+        console.log('Logged User:', loggedUser.username);
+        notifyAdmin(`Notification from ${loggedUser.username}. User is logged.`, loggedUser.username, new Date());
+    }
 
     return (
         <SafeAreaView style={styles.container}>

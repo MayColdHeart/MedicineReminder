@@ -20,7 +20,7 @@ export default function LoginScreen() {
       return;
     }
     
-    const loginResponse = await login(username, password); // TODO: implement login here
+    await login(username, password);
 
     const loggedUser = users.find(user => user.username === username);
 
