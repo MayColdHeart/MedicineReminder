@@ -48,7 +48,7 @@ app.UseAuthorization();
 
 app.MapRootEndpoints();
 app.MapAccountEndpoints();
-app.MapHub<NotificationHub>("/notificationHub");
+app.MapHub<NotificationHub>("/notification-hub");
 app.MapMedicineEndpoints();
 
 app.Run();

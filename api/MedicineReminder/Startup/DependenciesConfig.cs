@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MedicineReminder.Startup;
@@ -74,6 +75,21 @@ public static class DependenciesConfig
                 ValidAudience = audience,
                 ValidIssuer = issuer,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
+            };
+            
+            options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    StringValues accessToken = context.HttpContext.Request.Query["access_token"];
+                    PathString path = context.HttpContext.Request.Path;
+
+                    if(!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/notification-hub"))
+                    {
+                        context.Token = accessToken;
+                    }
+                    return Task.CompletedTask;
+                }
             };
         });
     }
