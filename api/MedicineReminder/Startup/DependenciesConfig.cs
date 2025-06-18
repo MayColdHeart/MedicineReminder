@@ -4,6 +4,7 @@ using MedicineReminder.Models;
 using MedicineReminder.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,6 +17,11 @@ public static class DependenciesConfig
         services.AddScoped<IMedicineService, MedicineService>();
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<ITokenService, TokenService>();
+    }
+    
+    public static void AddSingletonServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
     }
     
     public static void AddDatabase(this WebApplicationBuilder builder)

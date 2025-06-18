@@ -12,15 +12,17 @@ builder.AddJwtAuthentication();
 builder.Services.AddCustomAuthorization();
 
 builder.Services.AddScopedServices();
+builder.Services.AddSingletonServices();
 
 // TODO: Improve CORS policy for production use
 const string _myAllowAllOrigins = "_myAllowAllOrigins";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(_myAllowAllOrigins,
-        builder => builder.AllowAnyOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader());
+        policyBuilder => policyBuilder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+    );
 });
 
 builder.Services.AddSignalR(options => {
