@@ -1,13 +1,30 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { medicines } from '@/fake_data/medicines';
 import { Link, useLocalSearchParams } from 'expo-router';
 import MedicineList from '@/components/MedicineList';
 import MedicineForm from '@/components/MedicineForm';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { API_URL } from '@/context/AuthContext';
+import axios from 'axios';
+import { users } from '@/fake_data/users';
 
+// const notifyAdmin = async (username: string, alarmTime: Date) => {
+//     const options = {
+//         method: 'POST',
+//         url: `${API_URL}/notify`,
+//         headers: {'Content-Type': 'application/json'},
+//         data: {username: username, message: 'Notification from client was sent', alarmTime: alarmTime}
+//     };
 
+//     try {
+//         const { data } = await axios.request(options);
+//         console.log(data);
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
 const App = () => {
     const { id } = useLocalSearchParams();
@@ -15,6 +32,11 @@ const App = () => {
     const [showMedicineForm, setShowMedicineForm] = useState(false);
     const [updatingMedicine, setUpdatingMedicine] = useState(false);
     const [currentMedicineId, setCurrentMedicineId] = useState<number>(0); // used to edit in medicine form
+
+    const loggedUser = users.find((user) => user.id === loggedUserId);
+    // if (loggedUser) {
+    //     notifyAdmin(loggedUser.username, new Date());
+    // }
 
     return (
         <SafeAreaView style={styles.container}>

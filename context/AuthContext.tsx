@@ -72,9 +72,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
                 password
             });
 
-            console.log('Login response:', response.data);
-
             const token: string = response.data.token;
+            console.log('Login successful:', { token });
 
             setAuthState({
                 isAuthenticated: true,

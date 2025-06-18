@@ -19,8 +19,8 @@ export default function LoginScreen() {
       console.log('Login function is not available.');
       return;
     }
-    const loginResponse = await login(username, password);
-    console.log('Login Response:', loginResponse);
+    
+    const loginResponse = await login(username, password); // TODO: implement login here
 
     const loggedUser = users.find(user => user.username === username);
 
