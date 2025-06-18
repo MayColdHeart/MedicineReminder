@@ -268,12 +268,16 @@ public static class DatabaseStartUp
 
         foreach (var user in users)
         {
-            await userManager.CreateAsync(user, testPassword);
-            await userManager.AddToRoleAsync(user, RoleConstants.User);
-
             if (user.UserName == "admin")
             {
+                await userManager.CreateAsync(user, "admin");
                 await userManager.AddToRoleAsync(user, RoleConstants.Admin);
+                await userManager.AddToRoleAsync(user, RoleConstants.User);
+            }
+            else
+            {
+                await userManager.CreateAsync(user, testPassword);
+                await userManager.AddToRoleAsync(user, RoleConstants.User);
             }
         }
         
